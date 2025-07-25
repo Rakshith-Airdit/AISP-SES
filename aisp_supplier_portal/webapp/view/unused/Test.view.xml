@@ -1,0 +1,67 @@
+<mvc:XMLView xmlns:mvc="sap.ui.core.mvc"><mvc:content><Page xmlns="sap.m" id="pageId" title="Page Title" floatingFooter="true">
+		<headerContent>
+		    <Button icon="sap-icon://action" tooltip="Share" id="button0"/>
+		    
+		</headerContent>
+		<footer>
+		    <OverflowToolbar id="toolbar1">
+		        <ToolbarSpacer/>
+		        <Button type="Accept" text="Accept"/>
+		        </OverflowToolbar>
+		    
+		</footer>
+		<content>
+		    <sap.ui.layout:ResponsiveSplitter defaultPane="__pane0" xmlns:sap.ui.layout="sap.ui.layout" id="splitter0">
+		        <sap.ui.layout:rootPaneContainer>
+		            <sap.ui.layout:PaneContainer id="container0">
+		                <sap.ui.layout:panes>
+		                    <sap.ui.layout:SplitPane requiredParentWidth="50" id="pane0">
+		                        <sap.ui.layout:content>
+		                            <Panel height="100%" backgroundDesign="Transparent" id="panel0">
+		                                <layoutData>
+		                                    <sap.ui.layout:SplitterLayoutData id="data4"/>
+		                                </layoutData>
+		                            <content>
+		                                <Table noDataText="Drop column list items here and columns in the area above" id="table0">
+		                                    <items>
+		                                        <ColumnListItem type="Active" id="item0">
+		                                            <cells>
+		                                                <Text text="Row 1 Cell 1" id="text4"/>
+		                                                <Text text="Row 1 Cell 2" id="text5"/>
+		                                                <Text text="Row 1 Cell 3" id="text6"/></cells>
+		                                        </ColumnListItem>
+		                                    </items>
+		                                    <columns>
+		                                        <Column id="column0">
+		                                            <header>
+		                                                <Label text="Header 1" id="label0"/>
+		                                            </header>
+		                                        </Column>
+		                                        <Column id="column1">
+		                                            <header>
+		                                                <Label text="Header 2" id="label1"/>
+		                                            </header>
+		                                        </Column>
+		                                        <Column id="column2">
+		                                            <header>
+		                                                <Label text="Header 3" id="label2"/>
+		                                            </header>
+		                                        </Column></columns></Table>
+		                            </content>
+		                            </Panel>
+		                        </sap.ui.layout:content>
+		                    </sap.ui.layout:SplitPane>
+		                    <sap.ui.layout:SplitPane requiredParentWidth="50" id="pane1">
+		                        <sap.ui.layout:content>
+		                            <Panel height="100%" backgroundDesign="Transparent" id="panel1">
+		                                <layoutData>
+		                                    <sap.ui.layout:SplitterLayoutData id="data6"/>
+		                                </layoutData>
+		                            </Panel>
+		                        </sap.ui.layout:content>
+		                    </sap.ui.layout:SplitPane></sap.ui.layout:panes>
+		            </sap.ui.layout:PaneContainer>
+		        </sap.ui.layout:rootPaneContainer>
+		    </sap.ui.layout:ResponsiveSplitter>
+		</content>
+		</Page></mvc:content></mvc:XMLView>

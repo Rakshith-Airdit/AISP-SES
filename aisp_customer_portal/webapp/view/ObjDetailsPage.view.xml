@@ -1,0 +1,548 @@
+<mvc:View
+    controllerName="com.invoiceappairdit.invoiceapprovalairdit.aispcustomerportal.controller.ObjDetails"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:m="sap.m"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns="sap.uxap"
+>
+    <ObjectPageLayout
+        id="ObjectPageLayout"
+        showTitleInHeaderContent="true"
+        alwaysShowContentHeader="false"
+        preserveHeaderStateOnScroll="false"
+        headerContentPinnable="true"
+        headerContentPinned="false"
+        toggleHeaderOnTitleClick="true"
+        showFooter="true"
+        isChildPage="true"
+        upperCaseAnchorBar="false"
+    >
+        <headerTitle>
+            <ObjectPageDynamicHeaderTitle>
+                <breadcrumbs>
+                    <m:Breadcrumbs
+                        id="breadcrumbsId"
+                        currentLocationText="Approve List"
+                    >
+                        <m:Link
+                            text="Order"
+                            press="handleClose"
+                        />
+                    </m:Breadcrumbs>
+                </breadcrumbs>
+                <expandedHeading>
+                    <m:Title
+                        text="{oResData>/REQUEST_NO}"
+                        wrapping="true"
+                    />
+                </expandedHeading>
+                <snappedHeading>
+                    <m:HBox
+                        wrap="NoWrap"
+                        alignItems="Center"
+                    >
+                        <m:Avatar
+                            src="./Images/objPageIcon.png"
+                            displaySize="S"
+                            displayShape="Square"
+                            class="sapUiTinyMarginEnd"
+                        />
+                        <m:VBox wrap="Wrap">
+                            <m:Title
+                                text="{oResData>/REQUEST_NO}"
+                                wrapping="true"
+                            />
+                            <m:Label
+                                text="SES Request NO:"
+                                wrapping="true"
+                            />
+                        </m:VBox>
+                    </m:HBox>
+                </snappedHeading>
+                <actions>
+                    <m:Button
+                        icon="sap-icon://history"
+                        text="Logs"
+                        press="onPressLogs"
+                    />
+                </actions>
+            </ObjectPageDynamicHeaderTitle>
+        </headerTitle>
+
+        <headerContent>
+            <m:FlexBox
+                wrap="Wrap"
+                fitContainer="true"
+                alignItems="Stretch"
+            >
+                <m:Avatar
+                    src="./Images/objPageIcon.png"
+                    displaySize="L"
+                    displayShape="Square"
+                    class="sapUiMediumMarginEnd"
+                />
+                <m:VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                    <m:HBox class="sapUiTinyMarginBottom">
+                        <m:Label
+                            text="Purchase Order:"
+                            class="sapUiTinyMarginEnd"
+                        />
+                        <m:Text text="{oResData>/PO_NUMBER}" />
+                    </m:HBox>
+
+                    <m:HBox class="sapUiTinyMarginBottom">
+                        <m:Label
+                            text="Order Date:"
+                            class="sapUiTinyMarginEnd"
+                        />
+                        <m:Text text="{oResData>/CREATED_ON}" />
+                    </m:HBox>
+
+                    <m:HBox class="sapUiTinyMarginBottom">
+                        <m:Label
+                            text="Order Amount:"
+                            class="sapUiTinyMarginEnd"
+                        />
+                        <!-- <m:Text
+                            text="{oResData>/AMOUNT}"
+                            width="8rem"
+                        /> -->
+                        <m:ObjectNumber
+                            number="{oResData>/AMOUNT}"
+                            unit="INR"
+                        />
+                    </m:HBox>
+                </m:VBox>
+
+                <!-- SECOND COLUMN: Bank Details -->
+                <m:VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                    <m:HBox class="sapUiTinyMarginBottom">
+                        <m:Label
+                            text="Service PO Type:"
+                            class="sapUiTinyMarginEnd"
+                        />
+                        <m:Text text="{oResData>/ServicePOType}" />
+                    </m:HBox>
+
+                    <m:HBox class="sapUiTinyMarginBottom">
+                        <m:Label
+                            text="Created By:"
+                            class="sapUiTinyMarginEnd"
+                        />
+                        <m:Text text="{oResData>/PERSON_RESPONSIBLE}" />
+                    </m:HBox>
+
+                    <m:HBox class="sapUiTinyMarginBottom">
+                        <m:Label
+                            text="Status:"
+                            class="sapUiTinyMarginEnd"
+                        />
+                        <m:ObjectStatus
+                            text="{oResData>/SES_STATUS}"
+                            inverted="true"
+                            state="{path: 'oResData>/SES_STATUS', formatter: '.formatStatusState'}"
+                        />
+                    </m:HBox>
+                </m:VBox>
+
+                <!-- THRID COLUMN: Bank Details -->
+
+                <m:VBox
+                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                    visible="{= ${oResData>/SES_STATUS} === 'Approved'}"
+                >
+                    <m:HBox class="sapUiTinyMarginBottom">
+                        <m:Label
+                            text="Srv Ref No:"
+                            class="sapUiTinyMarginEnd"
+                        />
+                        <m:Text text="{oResData>/SAP_REFERENCE_NUMBER}" />
+                    </m:HBox>
+                </m:VBox>
+            </m:FlexBox>
+        </headerContent>
+
+        <sections>
+            <ObjectPageSection title="Service Details">
+                <subSections>
+                    <ObjectPageSubSection>
+                        <blocks>
+                            <!-- <m:HBox class="sapUiSmallMargin">
+                                <m:VBox class="sapUiMediumMarginEnd">
+                                    <m:Label
+                                        text="Invoice Number:"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+                                    <m:Input
+                                        id="idInvoiceNum"
+                                        width="10rem"
+                                        editable="false"
+                                        value="{headData>/Invoicerefno}"
+                                    />
+                                </m:VBox>
+                                <m:VBox class="sapUiMediumMarginBegin">
+                                    <m:Label
+                                        text="Invoice Date:"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+                                    <m:DatePicker
+                                        id="idInvoiceDate"
+                                        width="10rem"
+                                        editable="false"
+                                        value="{headData>/Invoicedate}"
+                                    />
+                                </m:VBox>
+                            </m:HBox> -->
+                            <form:SimpleForm
+                                editable="true"
+                                layout="ColumnLayout"
+                                columnsM="3"
+                                columnsL="3"
+                                columnsXL="3"
+                            >
+                                <m:Label
+                                    text="Service Period"
+                                    labelFor="idServicePeriod"
+                                />
+                                <m:Text
+                                    id="idServiceEntryPeriod"
+                                    text="{oResData>/SERVICE_PERIOD}"
+                                />
+                                <m:Label
+                                    text="Service Location"
+                                    labelFor="idServiceLocation"
+                                />
+                                <m:Text
+                                    id="idServiceEntryLocation"
+                                    text="{oResData>/SERVICE_LOCATION}"
+                                />
+                                <m:Label
+                                    text="Person Responsible"
+                                    labelFor="idPersonResponsible"
+                                />
+                                <m:Text
+                                    id="idServiceEntryPersonResponsible"
+                                    text="{oResData>/PERSON_RESPONSIBLE}"
+                                />
+                                <m:Label
+                                    text="Final SES Entry"
+                                    labelFor="idFinalSESEntry"
+                                />
+                                <m:ComboBox
+                                    id="idFinalSESEntry"
+                                    selectedKey="{oResData>/FINAL_SES_ENTRY}"
+                                    enabled="{= ${oResData>/SES_STATUS}.includes('In-Process') }"
+                                    required="true"
+                                    placeholder="Final SES Entry"
+                                    change="onChangeSESEntry"
+                                >
+                                    <m:items>
+                                        <core:ListItem
+                                            text="YES"
+                                            key="YES"
+                                        />
+                                        <core:ListItem
+                                            text="NO"
+                                            key="NO"
+                                        />
+                                    </m:items>
+                                </m:ComboBox>
+                                <!-- <m:Switch
+                                    id="idActivateService"
+                                    state="{oResData>/IS_ACTIVE}"
+                                    customTextOn="Yes"
+                                    customTextOff="No"
+                                    class="activateServiceSwitch"
+                                >
+                                    <m:layoutData>
+                                        <m:FlexItemData growFactor="1" />
+                                    </m:layoutData>
+                                </m:Switch> -->
+                                <m:Label
+                                    text="Site Person"
+                                    labelFor="idSitePerson"
+                                />
+                                <m:Input
+                                    id="idSitePerson"
+                                    value="{oResData>/SITE_PERSON}"
+                                    placeholder="Site Person"
+                                    required="true"
+                                    editable="{= ${oResData>/SES_STATUS}.includes('In-Process') }"
+                                    liveChange="onChangeSitePersonInp"
+                                />
+                                <m:Label
+                                    text="Service Text"
+                                    labelFor="idServiceText"
+                                />
+                                <m:Input
+                                    id="idServiceText"
+                                    value="{oResData>/SERVICE_TEXT}"
+                                    placeholder="Service Text"
+                                    required="true"
+                                    editable="{= ${oResData>/SES_STATUS}.includes('In-Process') }"
+                                    liveChange="onChangeSrvTextInp"
+                                />
+                            </form:SimpleForm>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+            <ObjectPageSection
+                title="Item Deatils"
+                titleUppercase="false"
+            >
+                <subSections>
+                    <ObjectPageSubSection>
+                        <blocks>
+                            <m:VBox>
+                                <!-- Scrollable Table Container -->
+                                <m:ScrollContainer
+                                    horizontal="true"
+                                    vertical="true"
+                                    width="100%"
+                                >
+                                    <m:VBox id="idTableFragmentContainer" />
+                                    <m:Table
+                                        xmlns:m="sap.m"
+                                        id="myTable"
+                                        items="{tableModel>/results}"
+                                        inset="false"
+                                        width="auto"
+                                    >
+                                        <m:headerToolbar>
+                                            <m:Toolbar>
+                                                <m:Title
+                                                    text="Item Details"
+                                                    level="H2"
+                                                />
+                                            </m:Toolbar>
+                                        </m:headerToolbar>
+
+                                        <m:columns>
+                                            <m:Column width="auto">
+                                                <m:Text text="Sr No" />
+                                            </m:Column>
+                                            <m:Column width="auto">
+                                                <m:Text text="Service Number" />
+                                            </m:Column>
+                                            <m:Column width="auto">
+                                                <m:Text
+                                                    text="Service Description"
+                                                />
+                                            </m:Column>
+                                            <m:Column width="auto">
+                                                <m:Text
+                                                    text="Ordered Quantity"
+                                                />
+                                            </m:Column>
+                                            <m:Column width="auto">
+                                                <m:Text text="UOM" />
+                                            </m:Column>
+                                            <m:Column width="auto">
+                                                <m:Text text="Unit Price" />
+                                            </m:Column>
+                                            <m:Column width="auto">
+                                                <m:Text
+                                                    text="Serviced Quantity"
+                                                />
+                                            </m:Column>
+                                            <m:Column width="auto">
+                                                <m:Text text="Total Price" />
+                                            </m:Column>
+                                        </m:columns>
+
+                                        <m:items>
+                                            <m:ColumnListItem>
+                                                <m:cells>
+                                                    <m:Text
+                                                        text="{tableModel>SR_NO}"
+                                                    />
+                                                    <m:Text
+                                                        text="{tableModel>SERVICE_NUMBER}"
+                                                    />
+                                                    <m:Text
+                                                        text="{tableModel>SERVICE_DESCRIPTION}"
+                                                    />
+                                                    <m:Text
+                                                        text="{tableModel>ORDERED_QUANTITY}"
+                                                    />
+                                                    <m:Text
+                                                        text="{tableModel>UNIT_OF_MEASURE}"
+                                                    />
+                                                    <m:ObjectNumber
+                                                        number="{tableModel>UNIT_PRICE}"
+                                                        unit="INR"
+                                                    />
+                                                    <m:Text
+                                                        text="{tableModel>SERVICE_QUANTITY}"
+                                                    />
+                                                    <m:Text
+                                                        text="{tableModel>TOTAL_PRICE}"
+                                                    />
+                                                </m:cells>
+                                            </m:ColumnListItem>
+                                        </m:items>
+                                    </m:Table>
+                                </m:ScrollContainer>
+
+                                <!-- TOTAL at the bottom, aligned right -->
+                                <m:HBox
+                                    justifyContent="End"
+                                    alignItems="Center"
+                                    class="sapUiSmallMarginTop sapUiSmallMarginBottom sapUiSmallMarginEnd"
+                                >
+                                    <m:Label
+                                        text="Total Amount:"
+                                        class="sapUiTinyMarginEnd"
+                                    />
+                                    <!-- Using Text for a simple display; replace with ObjectNumber if needed -->
+                                    <m:ObjectNumber
+                                        number="{tableModel>/totalSrvSheetVal}"
+                                        unit="INR"
+                                    />
+                                </m:HBox>
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+            <ObjectPageSection
+                title="Attachments"
+                titleUppercase="false"
+            >
+                <subSections>
+                    <ObjectPageSubSection>
+                        <blocks>
+                            <m:Panel
+                                xmlns:m="sap.m"
+                                xmlns:u="sap.ui.unified"
+                                xmlns:core="sap.ui.core"
+                                class="sapUiNoContentPadding"
+                            >
+                                <m:VBox
+                                    class="sapUiSmallMargin sapUiSmallMarginTop sapUiSmallMarginBottom"
+                                >
+                                    <!-- Supported Attachment Types and Size Limit -->
+                                    <!-- <m:MessageStrip
+                                        text="Supported Attachment Types: txt, pdf, xlsx, csv. Attachment Size up to 5 MB"
+                                        showIcon="true"
+                                        showCloseButton="false"
+                                        class="sapUiTinyMarginBottom"
+                                    /> -->
+
+                                    <!-- Attachments Header -->
+                                    <m:HBox
+                                        justifyContent="SpaceBetween"
+                                        alignItems="Center"
+                                        class="sapUiTinyMarginBottom"
+                                    >
+                                        <!-- Attachments count title -->
+                                        <m:Title
+                                            text="Attachments"
+                                            level="H3"
+                                            id="attachmentsCountTitle"
+                                        />
+                                        <!-- Direct FileUploader displayed as a button -->
+                                        <!-- <u:FileUploader
+                                            id="fileUploader"
+                                            change="onFileSelected"
+                                            fileType="xlsx,csv"
+                                            buttonOnly="true"
+                                            buttonText="Upload"
+                                            uploadComplete="onFileSelected"
+                                        /> -->
+                                    </m:HBox>
+
+                                    <!-- Attachments List -->
+                                    <m:List
+                                        id="attachmentsList"
+                                        items="{attachmentsModel>/attachments}"
+                                        inset="false"
+                                        noDataText="No attachments uploaded."
+                                        class="sapUiNoMargin"
+                                    >
+                                        <m:CustomListItem>
+                                            <m:HBox
+                                                justifyContent="SpaceBetween"
+                                                alignItems="Center"
+                                                class="sapUiSmallMargin"
+                                            >
+                                                <!-- LEFT SIDE: Icon + Attachment Details -->
+                                                <m:HBox alignItems="Center">
+                                                    <core:Icon
+                                                        src="sap-icon://document-text"
+                                                        size="2rem"
+                                                        class="sapUiSmallMarginEnd"
+                                                    />
+                                                    <m:VBox>
+                                                        <m:Text
+                                                            text="{attachmentsModel>REQUEST_NO}"
+                                                            class="sapUiTinyMarginBottom"
+                                                        />
+                                                        <m:Text
+                                                            text="{attachmentsModel>DESCRIPTION}"
+                                                            class="fileStatus"
+                                                        />
+                                                    </m:VBox>
+                                                </m:HBox>
+
+                                                <!-- RIGHT SIDE: Edit & Delete Buttons -->
+                                                <m:HBox alignItems="Center">
+                                                    <m:Button
+                                                        icon="sap-icon://show"
+                                                        type="Transparent"
+                                                        tooltip="Preview Attachment"
+                                                        press="onPreviewPdf"
+                                                        class="sapUiTinyMarginEnd"
+                                                    >
+                                                        <m:customData>
+                                                            <core:CustomData
+                                                                key="imageUrl"
+                                                                value="{attachmentsModel>URL}"
+                                                                writeToDom="false"
+                                                            />
+                                                        </m:customData>
+                                                    </m:Button>
+                                                </m:HBox>
+                                            </m:HBox>
+                                        </m:CustomListItem>
+                                    </m:List>
+                                </m:VBox>
+                            </m:Panel>
+
+                            <!-- File Uploader Dialog -->
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+        </sections>
+        <footer>
+            <m:Toolbar id="otbFooter">
+                <m:ToolbarSpacer />
+                <m:Button
+                    type="Back"
+                    text="Cancel"
+                    press="handleClose"
+                />
+                <m:Button
+                    type="Success"
+                    icon="sap-icon://complete"
+                    text="Approve"
+                    press="onPressApprove"
+                    visible="{= ${oResData>/SES_STATUS}.includes('In-Process') }"
+                />
+                <m:Button
+                    type="Reject"
+                    icon="sap-icon://decline"
+                    text="Reject"
+                    press="onPressReject"
+                    visible="{= ${oResData>/SES_STATUS}.includes('In-Process') }"
+                />
+                <!-- visible="{= ${oResData>/VENDOR_STATUS} === 'Rejected' && ${viewStateModel>/isEditMode} }" -->
+            </m:Toolbar>
+        </footer>
+    </ObjectPageLayout>
+</mvc:View>

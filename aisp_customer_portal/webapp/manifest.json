@@ -1,0 +1,170 @@
+{
+    "_version": "1.65.0",
+    "sap.app": {
+        "id": "com.invoiceappairdit.invoiceapprovalairdit.aispcustomerportal",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.18.0",
+            "toolsId": "bd147f9a-b4e7-4a74-8e1a-5f305a0f421e"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/odata/v2/zp-aisp-ses-upses-srbsample/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [
+                        "annotation0"
+                    ],
+                    "localUri": "localService/mainService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "annotation0": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation0.xml",
+                "settings": {
+                    "localUri": "annotations/annotation0.xml"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "AISP_SES-DISPLAY": {
+                    "semanticObject": "AISP_SES",
+                    "action": "DISPLAY",
+                    "title": "{{AISP_SES-DISPLAY.flpTitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": false,
+        "dependencies": {
+            "minUI5Version": "1.136.1",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.invoiceappairdit.invoiceapprovalairdit.aispcustomerportal.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {}
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "controlAggregation": "beginColumnPages",
+                "controlId": "layout",
+                "transition": "slide",
+                "type": "View",
+                "viewType": "XML",
+                "path": "com.invoiceappairdit.invoiceapprovalairdit.aispcustomerportal.view",
+                "async": true,
+                "viewPath": "com.invoiceappairdit.invoiceapprovalairdit.aispcustomerportal.view"
+            },
+            "routes": [
+                {
+                    "name": "RouteListReport",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetListReport"
+                    ]
+                },
+                {
+                    "name": "RouteObjDetailsPage",
+                    "pattern": "approval/{reqNo}",
+                    "target": [
+                        "TargetObjDetailsPage"
+                    ]
+                },
+                {
+                    "name": "Invoicepdf",
+                    "pattern": "Invoicepdf/{imageUrl}",
+                    "target": [
+                        "RouteObjDetailsPage",
+                        "Invoicepdf"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetListReport": {
+                    "viewId": "ListReportID",
+                    "viewName": "ListReport",
+                    "viewLevel": 1,
+                    "clearControlAggregation": true
+                },
+                "TargetObjDetailsPage": {
+                    "viewId": "ObjDetailsPage",
+                    "viewName": "ObjDetailsPage",
+                    "viewLevel": 1,
+                    "clearControlAggregation": true
+                },
+                "Invoicepdf": {
+                    "viewId": "Invoicepdf",
+                    "viewName": "Invoicepdf",
+                    "viewLevel": 2,
+                    "clearControlAggregation": true,
+                    "controlAggregation": "midColumnPages"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "com.invoiceappairdit.invoiceapprovalairdit.aispcustomerportal.view.App",
+            "type": "XML",
+            "id": "App",
+            "async": true
+        }
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "AISP_SES_CREATION"
+    }
+}

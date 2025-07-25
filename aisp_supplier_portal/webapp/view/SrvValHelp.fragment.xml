@@ -1,0 +1,55 @@
+<core:FragmentDefinition
+    xmlns="sap.ui.comp.valuehelpdialog"
+    xmlns:m="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+>
+    <ValueHelpDialog
+        id="valueHelpDialog"
+        title="Vendor Type"
+        ok=".onValueHelpOkPress"
+        cancel=".onValueHelpCancelPress"
+        afterClose=".onValueHelpAfterClose"
+        supportRanges="true"
+        key="ServiceNumber"
+        keys="UnitOfMesure"
+        descriptionKey="ServiceText"
+        enabledMultiSelectionPlugin="true"
+        supportMultiselect="false"
+    >
+        <!-- Filter Bar -->
+        <filterBar>
+            <fb:FilterBar
+                advancedMode="true"
+                search=".onFilterBarSearch"
+                isRunningInValueHelpDialog="true"
+            >
+                <fb:filterGroupItems>
+                    <!-- Product Code Filter -->
+                    <fb:FilterGroupItem
+                        groupName="__$INTERNAL$"
+                        name="ServiceNumber"
+                        label="Service Number"
+                        visibleInFilterBar="true"
+                    >
+                        <fb:control>
+                            <m:Input name="ServiceNumber" />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+
+                    <!-- Product Name Filter -->
+                    <fb:FilterGroupItem
+                        groupName="__$INTERNAL$"
+                        name="ServiceText"
+                        label="Service Description"
+                        visibleInFilterBar="true"
+                    >
+                        <fb:control>
+                            <m:Input name="ServiceText" />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                </fb:filterGroupItems>
+            </fb:FilterBar>
+        </filterBar>
+    </ValueHelpDialog>
+</core:FragmentDefinition>

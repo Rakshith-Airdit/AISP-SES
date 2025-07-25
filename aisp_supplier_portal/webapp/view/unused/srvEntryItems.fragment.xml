@@ -1,0 +1,147 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <VBox>
+
+        <HBox>
+            <Table
+                id="serviceEntryProductsTableEP"
+                items="{srvEntryModel>/to_Items/results}"
+                visible="{viewStateModel>/showPlannedTable}"
+            >
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Text
+                            text="Item No/Details - Planned: {srvEntryModel>/REQUEST_NO}"
+                        />
+                        <ToolbarSpacer />
+                        <Button icon="sap-icon://excel-attachment" />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="Sr No" />
+                    </Column>
+                    <Column>
+                        <Text text="Service Number" />
+                    </Column>
+                    <Column width="15em">
+                        <Text text="Service Description" />
+                    </Column>
+                    <Column>
+                        <Text text="Ordered Quantity" />
+                    </Column>
+                    <Column>
+                        <Text text="UOM" />
+                    </Column>
+                    <Column>
+                        <Text text="Unit Price" />
+                    </Column>
+                    <Column>
+                        <Text text="Service Quantity" />
+                    </Column>
+                    <Column>
+                        <Text text="Serviced Quantity" />
+                    </Column>
+                    <Column>
+                        <Text text="Total Price" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{srvEntryModel>SR_NO}" />
+                            <Text text="{srvEntryModel>SERVICE_NUMBER}" />
+                            <Text text="{srvEntryModel>SERVICE_DESCRIPTION}" />
+                            <Text text="{srvEntryModel>ORDERED_QUANTITY}" />
+                            <Text text="{srvEntryModel>UNIT_OF_MEASURE}" />
+                            <Text text="{srvEntryModel>UNIT_PRICE}" />
+                            <Input
+                                id="idSEPlannedSrvQtyInput"
+                                value="{srvEntryModel>newField}"
+                                liveChange="onInputChange"
+                            />
+                            <Text text="{srvEntryModel>SERVICE_QUANTITY}" />
+                            <Text text="{srvEntryModel>TOTAL_PRICE}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </HBox>
+
+        <HBox>
+            <Table
+                id="serviceEntryProductsTableEU"
+                items="{srvEntryModel>/to_Items/results}"
+                visible="{viewStateModel>/showUnplannedTable}"
+            >
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Text
+                            text="Item No/Details - Un-planned: {srvEntryModel>/REQUEST_NO}"
+                        />
+                        <ToolbarSpacer />
+                        <Button icon="sap-icon://excel-attachment" />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="Sr No" />
+                    </Column>
+                    <Column>
+                        <Text text="Service Number" />
+                    </Column>
+                    <Column width="15em">
+                        <Text text="Service Description" />
+                    </Column>
+                    <Column>
+                        <Text text="Ordered Quantity" />
+                    </Column>
+                    <Column>
+                        <Text text="UOM" />
+                    </Column>
+                    <Column>
+                        <Text text="Unit Price" />
+                    </Column>
+                    <Column>
+                        <Text text="Serviced Quantity" />
+                    </Column>
+                    <Column>
+                        <Text text="Total Price" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{srvEntryModel>SR_NO}" />
+                            <Input
+                                id="idSEUnPlannedSrvNoInput"
+                                value="{srvEntryModel>SERVICE_NUMBER}"
+                                liveChange="onInputChange"
+                            />
+                            <Input
+                                id="idSEUnPlannedSrvDescInput"
+                                value="{srvEntryModel>SERVICE_DESCRIPTION}"
+                                liveChange="onInputChange"
+                            />
+                            <Text text="{srvEntryModel>ORDERED_QUANTITY}" />
+                            <Text text="{srvEntryModel>UNIT_OF_MEASURE}" />
+                            <Input
+                                id="idSEUnPlannedUnitPriceInput"
+                                value="{srvEntryModel>UNIT_PRICE}"
+                                liveChange="onInputChange"
+                            />
+                            <Input
+                                id="idSEUnPlannedSrvQtyInput"
+                                value="{srvEntryModel>SERVICE_QUANTITY}"
+                                liveChange="onInputChange"
+                            />
+                            <Text text="{srvEntryModel>TOTAL_PRICE}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </HBox>
+    </VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,14 @@
+/* Enter your custom styles here */
+html,
+body {
+  overflow-y: hidden;
+}
+
+.idSESHeadObjSts {
+  text-wrap: nowrap;
+}
+
+.sapFDynamicPageContent,
+.sapFDynamicPageContentFitContainer {
+  padding: 0 !important;
+}

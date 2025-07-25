@@ -1,0 +1,512 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:layout="sap.ui.layout"
+    xmlns="sap.m"
+    controllerName="com.aisp.aispsupplierportal.controller.ObjectPage"
+    height="100%"
+    xmlns:l="sap.ui.layout"
+    xmlns:o="sap.uxap"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        enableScrolling="false"
+        showHeader="false"
+        id="previewInvoice"
+    >
+        <content>
+            <layout:Splitter
+                id="idMainSplitter"
+                height="100%"
+                width="100%"
+                class="noSplitterGrip"
+            >
+                <o:ObjectPageLayout
+                    id="idObjectPage"
+                    enableLazyLoading="true"
+                    upperCaseAnchorBar="false"
+                >
+                    <o:headerTitle>
+                        <o:ObjectPageDynamicHeaderTitle>
+                            <o:breadcrumbs>
+                                <Breadcrumbs>
+                                    <Link
+                                        text="Open Service PO's"
+                                        press="handleLink1Press"
+                                    />
+                                    <Link
+                                        text="Service Entry Sheet Creation"
+                                        press="handleLink1Press"
+                                    />
+                                </Breadcrumbs>
+                            </o:breadcrumbs>
+
+                            <o:expandedHeading>
+                                <Title
+                                    text="Purchase Order NO: {poModel>/0/Ebeln}"
+                                    wrapping="true"
+                                />
+                            </o:expandedHeading>
+                        </o:ObjectPageDynamicHeaderTitle>
+                    </o:headerTitle>
+
+                    <o:headerContent>
+                        <FlexBox
+                            wrap="Wrap"
+                            fitContainer="true"
+                        >
+                            <Avatar
+                                displaySize="L"
+                                backgroundColor="Placeholder"
+                                displayShape="Square"
+                                press="onPress"
+                            />
+                            <layout:VerticalLayout
+                                class="sapUiSmallMarginBeginEnd"
+                            >
+                                <Text
+                                    text="Order Date: { path: 'poModel>/0/Aedat', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"
+                                />
+                                <Text
+                                    text="Order Amount: {poModel>/0/Amount} INR"
+                                    class="sapUiSmallMarginTop"
+                                />
+                            </layout:VerticalLayout>
+                            <layout:VerticalLayout
+                                class="sapUiLargeMarginBeginEnd"
+                            >
+                                <Text
+                                    text="Service PO Type: {poModel>/0/ServicePOType}"
+                                />
+                                <Text
+                                    class="sapUiSmallMarginTop"
+                                    text="Created By: {poModel>/0/Ernam}"
+                                />
+                            </layout:VerticalLayout>
+                            <layout:VerticalLayout>
+                                <layout:HorizontalLayout>
+                                    <Text
+                                        text="Status:"
+                                        class="sapUiTinyMarginEnd"
+                                    />
+                                    <ObjectStatus
+                                        text="{poModel>/0/HeaderStaus}"
+                                        inverted="true"
+                                        state="{ path: 'poModel>/0/HeaderStaus', formatter: '.formatStatusState' }"
+                                    />
+                                </layout:HorizontalLayout>
+                            </layout:VerticalLayout>
+                        </FlexBox>
+                    </o:headerContent>
+                    <o:sections>
+                        <o:ObjectPageSection
+                            titleUppercase="false"
+                            title="Item Details"
+                        >
+                            <o:subSections>
+                                <o:ObjectPageSubSection
+                                    title="Service Details"
+                                    titleUppercase="false"
+                                >
+                                    <o:blocks>
+                                        <f:SimpleForm
+                                            editable="true"
+                                            layout="ColumnLayout"
+                                            columnsM="2"
+                                            columnsL="3"
+                                            columnsXL="4"
+                                        >
+                                            <Label
+                                                text="Service Period"
+                                                labelFor="idServicePeriod"
+                                            />
+                                            <DateRangeSelection
+                                                id="idServicePeriod"
+                                                required="true"
+                                            />
+                                            <Label
+                                                text="Service Location"
+                                                labelFor="idServiceLocation"
+                                            />
+                                            <Input
+                                                id="idServiceLocation"
+                                                required="true"
+                                            />
+                                            <Label
+                                                text="Person Responsible"
+                                                labelFor="idPersonResponsible"
+                                            />
+                                            <Input
+                                                id="idPersonResponsible"
+                                                required="true"
+                                            />
+                                        </f:SimpleForm>
+                                    </o:blocks>
+                                </o:ObjectPageSubSection>
+                            </o:subSections>
+                        </o:ObjectPageSection>
+                        <o:ObjectPageSection
+                            titleUppercase="false"
+                            title="Service Item Details"
+                        >
+                            <o:subSections>
+                                <o:ObjectPageSubSection
+                                    title="Service Item Details"
+                                    titleUppercase="false"
+                                >
+                                    <o:blocks>
+                                        <VBox>
+                                            <VBox id="fragmentContainer" />
+                                            <!-- <Table
+                                                id="productsTable"
+                                                inset="false"
+                                                items="{selItemModel>/items}"
+                                                class="sapFDynamicPageAlignContent"
+                                                width="100%"
+                                                mode="{= ${selItemModel>/srvType} === 'Un-planned' ? 'MultiSelect' : 'None' }"
+                                                selectionChange="onSelect"
+                                            >
+                                                <headerToolbar>
+                                                    <OverflowToolbar>
+                                                        <Text
+                                                            text="Item No/Details: {poDetailModel>/0/Ebelp}"
+                                                        />
+                                                        <ToolbarSpacer />
+                                                        <Button
+                                                            icon="sap-icon://add"
+                                                            text="Add"
+                                                            press="onAddPress"
+                                                            visible="{= ${selItemModel>/srvType} === 'Un-planned' }"
+                                                        />
+                                                        <Button
+                                                            icon="sap-icon://edit"
+                                                            text="Edit"
+                                                            press="onEditPress"
+                                                            visible="{= ${selItemModel>/srvType} === 'Un-planned' }"
+                                                        />
+                                                        <Button
+                                                            icon="sap-icon://delete"
+                                                            text="Delete"
+                                                            press="onDeletePress"
+                                                            visible="{= ${selItemModel>/srvType} === 'Un-planned' }"
+                                                        />
+                                                        <Button
+                                                            icon="sap-icon://excel-attachment"
+                                                        />
+                                                    </OverflowToolbar>
+                                                </headerToolbar>
+                                                <columns>
+                                                    <Column>
+                                                        <Text text="Sr No" />
+                                                    </Column>
+                                                    <Column>
+                                                        <Text
+                                                            text="Service Number"
+                                                        />
+                                                    </Column>
+                                                    <Column width="15em">
+                                                        <Text
+                                                            text="Service Description"
+                                                        />
+                                                    </Column>
+                                                    <Column>
+                                                        <Text
+                                                            text="Ordered Quantity"
+                                                            visible="{= ${selItemModel>/srvType} !== 'Un-planned' }"
+                                                        />
+                                                    </Column>
+                                                    <Column>
+                                                        <Text text="UOM" />
+                                                    </Column>
+                                                    <Column>
+                                                        <Text
+                                                            text="Unit Price"
+                                                        />
+                                                    </Column>
+                                                    <Column>
+                                                        <Text
+                                                            text="Service Quantity"
+                                                        />
+                                                    </Column>
+                                                    <Column>
+                                                        <Text
+                                                            text="Serviced Quantity"
+                                                        />
+                                                    </Column>
+                                                    <Column>
+                                                        <Text
+                                                            text="Total Price"
+                                                        />
+                                                    </Column>
+                                                </columns>
+                                                <items>
+                                                    <ColumnListItem>
+                                                        <cells>
+                                                            <Text
+                                                                text="{selItemModel>SR_NO}"
+                                                            />
+                                                            <Text
+                                                                text="{selItemModel>SERVICE_NUMBER}"
+                                                                visible="{= ${selItemModel>/srvType} !== 'Un-planned' }"
+                                                            />
+                                                            <Input
+                                                                value="{selItemModel>SERVICE_NUMBER}"
+                                                                liveChange="onInputChange"
+                                                                visible="{= ${selItemModel>/srvType} === 'Un-planned' }"
+                                                            />
+                                                            <Text
+                                                                text="{selItemModel>SERVICE_DESCRIPTION}"
+                                                                visible="{= ${selItemModel>/srvType} !== 'Un-planned' }"
+                                                            />
+                                                            <Input
+                                                                value="{selItemModel>SERVICE_DESCRIPTION}"
+                                                                liveChange="onInputChange"
+                                                                visible="{= ${selItemModel>/srvType} === 'Un-planned' }"
+                                                            />
+                                                            <Text
+                                                                text="{selItemModel>ORDERED_QUANTITY}"
+                                                                visible="{= ${selItemModel>/srvType} !== 'Un-planned' }"
+                                                            />
+                                                            <Text
+                                                                text="{selItemModel>UNIT_OF_MEASURE}"
+                                                            />
+                                                            <Text
+                                                                text="{selItemModel>UNIT_PRICE}"
+                                                            />
+                                                            <Input
+                                                                value="{selItemModel>newField}"
+                                                                liveChange="onInputChange"
+                                                            />
+                                                            <Text
+                                                                text="{selItemModel>SERVICE_QUANTITY}"
+                                                            />
+                                                            <Text
+                                                                text="{selItemModel>TOTAL_PRICE}"
+                                                            />
+                                                        </cells>
+                                                    </ColumnListItem>
+                                                </items>
+                                            </Table> -->
+                                            <Toolbar>
+                                                <ToolbarSpacer />
+                                                <Text
+                                                    id="idTotalPrice"
+                                                    text="Total Service Sheet Value : 00"
+                                                />
+                                            </Toolbar>
+                                        </VBox>
+                                    </o:blocks>
+                                </o:ObjectPageSubSection>
+                            </o:subSections>
+                        </o:ObjectPageSection>
+
+                        <!-- <o:ObjectPageSection
+                            titleUppercase="false"
+                            title="Attachments"
+                        >
+                            <o:subSections>
+                                <o:ObjectPageSubSection
+                                    title="Attachments"
+                                    titleUppercase="false"
+                                >
+                                    <o:blocks>
+                                        <VBox>
+                                            <OverflowToolbar>
+                                                <ToolbarSpacer />
+                                                <u:FileUploader
+                                                    id="fileUploader"
+                                                    name="myFileUpload"
+                                                    tooltip="Upload your file to the local server"
+                                                    change="handleFileSelection"
+                                                    buttonOnly="true"
+                                                    sameFilenameAllowed="true"
+                                                    buttonText="Upload File"
+                                                    fileType="pdf"
+                                                />
+                                            </OverflowToolbar>
+
+                                            <MessageStrip
+                                                text="Supported Attachments Types: txt, jpg, docx, pdf, zip, xlsx and Attachment Size upto: 5 MB"
+                                                showIcon="true"
+                                            />
+                                            <PDFViewer id="pdfPreview" />
+                                        </VBox>
+                                    </o:blocks>
+                                </o:ObjectPageSubSection>
+                            </o:subSections>
+                        </o:ObjectPageSection> -->
+
+                        <o:ObjectPageSection
+                            title="Attachments"
+                            titleUppercase="false"
+                        >
+                            <o:subSections>
+                                <o:ObjectPageSubSection>
+                                    <o:blocks>
+                                        <m:Panel
+                                            xmlns:m="sap.m"
+                                            xmlns:u="sap.ui.unified"
+                                            xmlns:core="sap.ui.core"
+                                            class="sapUiNoContentPadding"
+                                        >
+                                            <m:VBox
+                                                class="sapUiSmallMargin sapUiSmallMarginTop sapUiSmallMarginBottom"
+                                            >
+                                                <!-- Supported Attachment Types and Size Limit -->
+                                                <m:MessageStrip
+                                                    text="Supported Attachment Types: txt, pdf, xlsx, csv. Attachment Size up to 1 MB"
+                                                    showIcon="true"
+                                                    showCloseButton="false"
+                                                    class="sapUiTinyMarginBottom"
+                                                />
+
+                                                <!-- Attachments Header -->
+                                                <m:HBox
+                                                    justifyContent="SpaceBetween"
+                                                    alignItems="Center"
+                                                    class="sapUiTinyMarginBottom"
+                                                >
+                                                    <!-- Attachments count title -->
+                                                    <m:Title
+                                                        text="Attachments"
+                                                        level="H3"
+                                                        id="attachmentsCountTitle"
+                                                    />
+                                                    <!-- Direct FileUploader displayed as a button -->
+                                                    <u:FileUploader
+                                                        id="fileUploader"
+                                                        change="onFileSelected"
+                                                        fileType="xlsx,csv,pdf"
+                                                        buttonOnly="true"
+                                                        buttonText="Upload"
+                                                        uploadComplete="onFileSelected"
+                                                        visible="{headData>/editable}"
+                                                        maximumFileSize="2"
+                                                        fileSizeExceed="onFileSizeExceed"
+                                                        multiple="false"
+                                                        placeholder="Select Files to Upload"
+                                                    />
+                                                </m:HBox>
+
+                                                <!-- Attachments List -->
+                                                <m:List
+                                                    id="attachmentsList"
+                                                    items="{attachmentsModel>/attachments}"
+                                                    inset="false"
+                                                    noDataText="No attachments uploaded."
+                                                    class="sapUiNoMargin"
+                                                >
+                                                    <m:CustomListItem>
+                                                        <m:HBox
+                                                            justifyContent="SpaceBetween"
+                                                            alignItems="Center"
+                                                            class="sapUiSmallMargin"
+                                                        >
+                                                            <!-- LEFT SIDE: Icon + Attachment Details -->
+                                                            <m:HBox
+                                                                alignItems="Center"
+                                                            >
+                                                                <core:Icon
+                                                                    src="sap-icon://document-text"
+                                                                    size="2rem"
+                                                                    class="sapUiSmallMarginEnd"
+                                                                />
+                                                                <m:VBox>
+                                                                    <m:Text
+                                                                        text="{attachmentsModel>IMAGE_FILE_NAME}"
+                                                                        class="sapUiTinyMarginBottom"
+                                                                    />
+                                                                    <m:Text
+                                                                        text="Status: {attachmentsModel>STATUS} · Comment: {attachmentsModel>COMMENT} ·"
+                                                                    />
+                                                                </m:VBox>
+                                                            </m:HBox>
+
+                                                            <!-- RIGHT SIDE: Edit & Delete Buttons -->
+                                                            <m:HBox
+                                                                alignItems="Center"
+                                                            >
+                                                                <m:Button
+                                                                    icon="sap-icon://show"
+                                                                    type="Transparent"
+                                                                    tooltip="Preview Attachment"
+                                                                    press="onPreviewAttachment"
+                                                                    class="sapUiTinyMarginEnd"
+                                                                >
+                                                                    <m:customData
+                                                                    >
+                                                                        <core:CustomData
+                                                                            key="imageUrl"
+                                                                            value="{attachmentsModel>IMAGEURL}"
+                                                                            writeToDom="false"
+                                                                        />
+                                                                    </m:customData>
+                                                                </m:Button>
+                                                                <m:Button
+                                                                    icon="sap-icon://delete"
+                                                                    type="Transparent"
+                                                                    tooltip="Delete Attachment"
+                                                                    press="onDeleteAttachmentPress"
+                                                                />
+                                                            </m:HBox>
+                                                        </m:HBox>
+                                                    </m:CustomListItem>
+                                                </m:List>
+                                            </m:VBox>
+                                        </m:Panel>
+
+                                        <!-- File Uploader Dialog -->
+                                    </o:blocks>
+                                </o:ObjectPageSubSection>
+                            </o:subSections>
+                        </o:ObjectPageSection>
+                    </o:sections>
+
+                    <o:footer>
+                        <OverflowToolbar>
+                            <ToolbarSpacer />
+                            <Button
+                                icon="sap-icon://arrow-left"
+                                text="Cancel"
+                                type="Neutral"
+                                press="onPressCancel"
+                            />
+                            <Button
+                                icon="sap-icon://sys-enter"
+                                type="Accept"
+                                text="Submit"
+                                press="onPressSubmit"
+                            />
+                        </OverflowToolbar>
+                    </o:footer>
+                </o:ObjectPageLayout>
+                <Page>
+                    <layoutData>
+                        <l:SplitterLayoutData
+                            size="0%"
+                            id="previewSplitterLayout"
+                        />
+                    </layoutData>
+
+                    <content>
+                        <VBox class="sapUiTinyMargin">
+                            <HBox justifyContent="End">
+                                <Button
+                                    icon="sap-icon://decline"
+                                    type="Transparent"
+                                    tooltip="Close Preview"
+                                    press="onClosePreview"
+                                />
+                            </HBox>
+
+                            <core:HTML
+                                content='&lt;iframe id="pdfFrame" width="100%" height="700px" style="border:none;"&gt;&lt;/iframe&gt;'
+                            />
+                        </VBox>
+                    </content>
+                </Page>
+            </layout:Splitter>
+        </content>
+    </Page>
+</mvc:View>

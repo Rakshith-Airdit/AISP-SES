@@ -1,0 +1,107 @@
+_schema-version: "3.2"
+ID: AISP_SES_CREATION
+version: 0.0.1
+modules:
+- name: AISP_SES_CREATION-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: AISP_SES_CREATION-destination-service
+    parameters:
+      content-target: true
+  - name: AISP_SES_CREATION_html_repo_host
+    parameters:
+      service-key:
+        name: AISP_SES_CREATION_html_repo_host-key
+  - name: uaa_AISP_SES_CREATION
+    parameters:
+      service-key:
+        name: uaa_AISP_SES_CREATION-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: AISP_SES_CREATION_AISP_SES_CREATION_html_repo_host
+          ServiceInstanceName: AISP_SES_CREATION-html5-app-host-service
+          ServiceKeyName: AISP_SES_CREATION_html_repo_host-key
+          sap.cloud.service: AISP_SES_CREATION
+        - Authentication: OAuth2UserTokenExchange
+          Name: AISP_SES_CREATION_uaa_AISP_SES_CREATION
+          ServiceInstanceName: AISP_SES_CREATION-xsuaa-service
+          ServiceKeyName: uaa_AISP_SES_CREATION-key
+          sap.cloud.service: AISP_SES_CREATION
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: AISP_SES_CREATION-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: AISP_SES_CREATION_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - comaispaispsupplierportal.zip
+      name: comaispaispsupplierportal
+      target-path: resources/
+    - artifacts:
+      - cominvoiceappairditinvoiceapprovalairditaispcustomerportal.zip
+      name: cominvoiceappairditinvoiceapprovalairditaispcustomerportal
+      target-path: resources/
+- name: comaispaispsupplierportal
+  type: html5
+  path: aisp_supplier_portal
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: cominvoiceappairditinvoiceapprovalairditaispcustomerportal
+  type: html5
+  path: aisp_customer_portal
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: AISP_SES_CREATION-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: AISP_SES_CREATION-destination-service
+    service-plan: lite
+- name: AISP_SES_CREATION_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: AISP_SES_CREATION-html5-app-host-service
+    service-plan: app-host
+- name: uaa_AISP_SES_CREATION
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: AISP_SES_CREATION-xsuaa-service
+    service-plan: application
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true

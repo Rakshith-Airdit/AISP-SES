@@ -1,0 +1,390 @@
+<mvc:View
+    controllerName="com.invoiceappairdit.invoiceapprovalairdit.aispcustomerportal.controller.ListReport"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:f="sap.f"
+    xmlns:vm="sap.ui.fl.variants"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+>
+    <Page
+        showHeader="false"
+        showFooter="false"
+    >
+        <smartFilterBar:SmartFilterBar
+            id="smartFilterBar"
+            entitySet="SES_Head"
+            persistencyKey="SmartFilter_Explored"
+            considerAnalyticalParameters="true"
+            initialized="initialized"
+            showRestoreButton="true"
+            showFilterConfiguration="false"
+        >
+            <smartFilterBar:controlConfiguration />
+        </smartFilterBar:SmartFilterBar>
+        <IconTabBar
+            id="idIconTabBarMulti"
+            expanded="{device>/isNoPhone}"
+            class="customTabBar"
+            select="onIconTabBarSelect"
+        >
+            <items>
+                <IconTabFilter
+                    key="Pending"
+                    icon="./Images/open.png"
+                    text="Pending"
+                >
+                    <smartTable:SmartTable
+                        entitySet="SES_Head"
+                        smartFilterId="smartFilterBar"
+                        enableExport="true"
+                        beforeExport="onBeforeExport"
+                        useVariantManagement="true"
+                        useTablePersonalisation="true"
+                        header="List"
+                        showRowCount="true"
+                        persistencyKey="SmartTableRefApp_Explored"
+                        enableAutoBinding="true"
+                        tableType="ResponsiveTable"
+                        demandPopin="true"
+                        enableAutoColumnWidth="false"
+                        id="smartTablePending"
+                        beforeRebindTable="onBeforeRebindTable"
+                        ignoredFields="SERVICE_PERIOD,SERVICE_LOCATION,PERSON_RESPONSIBLE,CURRENT_ASSIGNEE,APPROVER_ROLE,REQUESTER_ID,APPROVER_LEVEL,PROCESS_LEVEL,FINAL_SES_ENTRY,SITE_PERSON,SERVICE_TEXT,COMMENT,TYPE,SAP_REFERENCE_NUMBER"
+                    >
+                        <Table
+                            selectionChange="selectionChangeHandlerRregister"
+                            growing="true"
+                            growingThreshold="10"
+                            id="idTableInvoice"
+                            width="100%"
+                        >
+                            <columns>
+                                <Column hAlign="Begin">
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "REQUEST_NO", "leadingProperty": "REQUEST_NO", "sortProperty": "REQUEST_NO", "filterProperty": "REQUEST_NO", "columnIndex": "0"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="Request No"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "SUPPLIER_NAME", "leadingProperty": "SUPPLIER_NAME", "sortProperty": "SUPPLIER_NAME", "filterProperty": "SUPPLIER_NAME", "columnIndex": "1"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="Supplier Name"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "PO_NUMBER", "leadingProperty": "PO_NUMBER", "sortProperty": "PO_NUMBER", "filterProperty": "PO_NUMBER", "columnIndex": "2"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="PO Number"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "total_service_sheet_value", "leadingProperty": "total_service_sheet_value", "sortProperty": "total_service_sheet_value", "filterProperty": "total_service_sheet_value", "columnIndex": "3"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="AMOUNT"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                                <Column hAlign="Left">
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "SES_STATUS", "leadingProperty": "SES_STATUS", "sortProperty": "SES_STATUS", "filterProperty": "SES_STATUS", "columnIndex": "4"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="Status"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem
+                                    vAlign="Middle"
+                                    type="Navigation"
+                                    press="onListItemPress"
+                                >
+                                    <cells>
+                                        <Text
+                                            text="{path: 'REQUEST_NO', formatter: '.formatRequestNo'}"
+                                            class="noWrapText"
+                                        />
+                                        <Text
+                                            text="{path: 'SUPPLIER_NAME', formatter: '.formatEmptyFieldData'}"
+                                            class="noWrapText"
+                                            textAlign="Center"
+                                        />
+                                        <Text
+                                            text="{path: 'PO_NUMBER', formatter: '.formatEmptyFieldData'}"
+                                            class="noWrapText"
+                                            textAlign="Center"
+                                        />
+                                        <ObjectNumber
+                                            number="{total_service_sheet_value}"
+                                            unit="INR"
+                                        />
+                                        <ObjectStatus
+                                            text="{SES_STATUS}"
+                                            state="{path: 'SES_STATUS', formatter: '.formatStatusState'}"
+                                            inverted="true"
+                                            class="noWrapText"
+                                        />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </smartTable:SmartTable>
+                </IconTabFilter>
+                <IconTabFilter
+                    key="rejected"
+                    icon="./Images/Rejected.png"
+                    text="Rejected"
+                >
+                    <smartTable:SmartTable
+                        entitySet="SES_Head"
+                        smartFilterId="smartFilterBar"
+                        enableExport="true"
+                        beforeExport="onBeforeExport"
+                        useVariantManagement="true"
+                        useTablePersonalisation="true"
+                        header="Items"
+                        showRowCount="true"
+                        persistencyKey="SmartTableRefApp_Explored"
+                        enableAutoBinding="true"
+                        tableType="ResponsiveTable"
+                        demandPopin="true"
+                        enableAutoColumnWidth="false"
+                        id="smartTableRejected"
+                        beforeRebindTable="onBeforeRebindTable"
+                        ignoredFields="SERVICE_PERIOD,SERVICE_LOCATION,PERSON_RESPONSIBLE,CURRENT_ASSIGNEE,APPROVER_ROLE,REQUESTER_ID,APPROVER_LEVEL,PROCESS_LEVEL,FINAL_SES_ENTRY,SITE_PERSON,SERVICE_TEXT,COMMENT,TYPE,SAP_REFERENCE_NUMBER"
+                    >
+                        <Table
+                            selectionChange="selectionChangeHandlerRregister"
+                            growing="true"
+                            growingThreshold="10"
+                            id="idTableInvoiceSub"
+                        >
+                            <columns>
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "REQUEST_NO", "leadingProperty": "REQUEST_NO", "sortProperty": "REQUEST_NO", "filterProperty": "REQUEST_NO", "columnIndex": "0"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="Request No"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "SUPPLIER_NAME", "leadingProperty": "SUPPLIER_NAME", "sortProperty": "SUPPLIER_NAME", "filterProperty": "SUPPLIER_NAME", "columnIndex": "1"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="Supplier Name"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "PO_NUMBER", "leadingProperty": "PO_NUMBER", "sortProperty": "PO_NUMBER", "filterProperty": "PO_NUMBER", "columnIndex": "2"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="PO Number"
+                                        wrapping="false"
+                                    />
+                                </Column>
+
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "SES_STATUS", "leadingProperty": "SES_STATUS", "sortProperty": "SES_STATUS", "filterProperty": "SES_STATUS", "columnIndex": "4"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="Status"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem
+                                    vAlign="Middle"
+                                    type="Navigation"
+                                    press="onListItemPress"
+                                >
+                                    <cells>
+                                        <Text
+                                            text="{path: 'REQUEST_NO', formatter: '.formatRequestNo'}"
+                                            class="noWrapText"
+                                        />
+                                        <Text
+                                            text="{path: 'SUPPLIER_NAME', formatter: '.formatEmptyFieldData'}"
+                                            class="noWrapText"
+                                            textAlign="Center"
+                                        />
+                                        <Text
+                                            text="{path: 'PO_NUMBER', formatter: '.formatEmptyFieldData'}"
+                                            class="noWrapText"
+                                            textAlign="Center"
+                                        />
+                                        <ObjectStatus
+                                            text="{SES_STATUS}"
+                                            state="{path: 'SES_STATUS', formatter: '.formatStatusState'}"
+                                            inverted="true"
+                                            class="noWrapText"
+                                        />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </smartTable:SmartTable>
+                </IconTabFilter>
+                <IconTabFilter
+                    key="approved"
+                    icon="./Images/submitted.png"
+                    text="Approved"
+                >
+                    <smartTable:SmartTable
+                        entitySet="SES_Head"
+                        smartFilterId="smartFilterBar"
+                        enableExport="true"
+                        beforeExport="onBeforeExport"
+                        useVariantManagement="true"
+                        useTablePersonalisation="true"
+                        header="Items"
+                        showRowCount="true"
+                        persistencyKey="SmartTableRefApp_Explored"
+                        enableAutoBinding="true"
+                        tableType="ResponsiveTable"
+                        demandPopin="true"
+                        enableAutoColumnWidth="false"
+                        id="smartTableApproved"
+                        beforeRebindTable="onBeforeRebindTable"
+                        ignoredFields="SERVICE_PERIOD,SERVICE_LOCATION,PERSON_RESPONSIBLE,CURRENT_ASSIGNEE,APPROVER_ROLE,REQUESTER_ID,APPROVER_LEVEL,PROCESS_LEVEL,FINAL_SES_ENTRY,SITE_PERSON,SERVICE_TEXT,COMMENT,TYPE,SAP_REFERENCE_NUMBER"
+                    >
+                        <Table
+                            selectionChange="selectionChangeHandlerRregister"
+                            growing="true"
+                            growingThreshold="10"
+                            id="idTableInvoiceRej"
+                        >
+                            <columns>
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "REQUEST_NO", "leadingProperty": "REQUEST_NO", "sortProperty": "REQUEST_NO", "filterProperty": "REQUEST_NO", "columnIndex": "0"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="Request No"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "SUPPLIER_NAME", "leadingProperty": "SUPPLIER_NAME", "sortProperty": "SUPPLIER_NAME", "filterProperty": "SUPPLIER_NAME", "columnIndex": "1"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="Supplier Name"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "PO_NUMBER", "leadingProperty": "PO_NUMBER", "sortProperty": "PO_NUMBER", "filterProperty": "PO_NUMBER", "columnIndex": "2"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="PO Number"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                                <Column>
+                                    <customData>
+                                        <core:CustomData
+                                            key="p13nData"
+                                            value='\{"columnKey": "SES_STATUS", "leadingProperty": "SES_STATUS", "sortProperty": "SES_STATUS", "filterProperty": "SES_STATUS", "columnIndex": "4"}'
+                                        />
+                                    </customData>
+                                    <Label
+                                        text="Status"
+                                        wrapping="false"
+                                    />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem
+                                    vAlign="Middle"
+                                    type="Navigation"
+                                    press="onListItemPress"
+                                >
+                                    <cells>
+                                        <Text
+                                            text="{path: 'REQUEST_NO', formatter: '.formatRequestNo'}"
+                                            class="noWrapText"
+                                        />
+                                        <Text
+                                            text="{path: 'SUPPLIER_NAME', formatter: '.formatEmptyFieldData'}"
+                                            class="noWrapText"
+                                            textAlign="Center"
+                                        />
+                                        <Text
+                                            text="{path: 'PO_NUMBER', formatter: '.formatEmptyFieldData'}"
+                                            class="noWrapText"
+                                            textAlign="Center"
+                                        />
+                                        <ObjectStatus
+                                            text="{SES_STATUS}"
+                                            state="{path: 'SES_STATUS', formatter: '.formatStatusState'}"
+                                            inverted="true"
+                                            class="noWrapText"
+                                        />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </smartTable:SmartTable>
+                </IconTabFilter>
+            </items>
+        </IconTabBar>
+    </Page>
+</mvc:View>

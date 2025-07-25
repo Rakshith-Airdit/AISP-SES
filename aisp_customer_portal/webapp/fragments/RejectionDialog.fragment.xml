@@ -1,0 +1,36 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout">
+    <Dialog
+        id="rejectionDialog"
+        title="Reject Invoice"
+        draggable="true"
+        resizable="true"
+        contentWidth="500px"
+        contentHeight="auto"
+        class="sapUiResponsivePadding">
+        
+        <VBox class="sapUiSmallMargin sapUiContentPadding" renderType="Bare">
+            <Label 
+                text="Rejection Comment" 
+                labelFor="rejectionComment" 
+                class="sapUiTinyMarginBottom" />
+            
+            <TextArea
+                id="rejectionComment"
+                rows="6"
+                maxLength="500"
+                growing="true"
+                growingMaxLines="8"
+                width="100%"
+                placeholder="Please enter the reason for rejection..."
+                showExceededText="true" />
+        </VBox>
+
+        <beginButton>
+            <Button text="Reject" type="Reject" icon="sap-icon://decline" press="onConfirmReject" />
+        </beginButton>
+
+        <endButton>
+            <Button text="Cancel" icon="sap-icon://sys-cancel" press="onRejectDialogClose" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

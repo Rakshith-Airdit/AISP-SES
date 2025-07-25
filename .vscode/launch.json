@@ -1,0 +1,165 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Start aisp_supplier_portal",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/aisp_supplier_portal",
+      "runtimeExecutable": "npx",
+      "windows": {
+        "runtimeExecutable": "npx.cmd"
+      },
+      "runtimeArgs": [
+        "fiori",
+        "run"
+      ],
+      "args": [
+        "--open",
+        "test/flpSandbox.html#comaispaispsupplierportal-display"
+      ],
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture": "std",
+      "env": {
+        "DEBUG": "--inspect",
+        "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false",
+        "run.config": "{\"handlerId\":\"fiori_tools\",\"runnableId\":\"/home/user/projects/AISP_SES_CREATION/aisp_supplier_portal\"}"
+      }
+    },
+    {
+      "name": "Start aisp_supplier_portal Mock",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/aisp_supplier_portal",
+      "runtimeExecutable": "npx",
+      "windows": {
+        "runtimeExecutable": "npx.cmd"
+      },
+      "runtimeArgs": [
+        "fiori",
+        "run"
+      ],
+      "args": [
+        "--config",
+        "./ui5-mock.yaml",
+        "--open",
+        "test/flpSandbox.html#comaispaispsupplierportal-display"
+      ],
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture": "std",
+      "env": {
+        "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false",
+        "run.config": "{\"handlerId\":\"fiori_tools\",\"runnableId\":\"/home/user/projects/AISP_SES_CREATION/aisp_supplier_portal\"}"
+      }
+    },
+    {
+      "name": "Start aisp_supplier_portal Local",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/aisp_supplier_portal",
+      "runtimeExecutable": "npx",
+      "windows": {
+        "runtimeExecutable": "npx.cmd"
+      },
+      "runtimeArgs": [
+        "fiori",
+        "run"
+      ],
+      "args": [
+        "--config",
+        "./ui5-local.yaml",
+        "--open",
+        "test/flpSandbox.html#comaispaispsupplierportal-display"
+      ],
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture": "std",
+      "env": {
+        "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false",
+        "run.config": "{\"handlerId\":\"fiori_tools\",\"runnableId\":\"/home/user/projects/AISP_SES_CREATION/aisp_supplier_portal\"}"
+      }
+    },
+    {
+      "name": "Start aisp_customer_portal",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/aisp_customer_portal",
+      "runtimeExecutable": "npx",
+      "windows": {
+        "runtimeExecutable": "npx.cmd"
+      },
+      "runtimeArgs": [
+        "fiori",
+        "run"
+      ],
+      "args": [
+        "--open",
+        "test/flpSandbox.html#cominvoiceappairditinvoiceappr-display"
+      ],
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture": "std",
+      "env": {
+        "DEBUG": "--inspect",
+        "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false",
+        "run.config": "{\"handlerId\":\"fiori_tools\",\"runnableId\":\"/home/user/projects/AISP_SES_CREATION/aisp_customer_portal\"}"
+      }
+    },
+    {
+      "name": "Start aisp_customer_portal Local",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/aisp_customer_portal",
+      "runtimeExecutable": "npx",
+      "windows": {
+        "runtimeExecutable": "npx.cmd"
+      },
+      "runtimeArgs": [
+        "fiori",
+        "run"
+      ],
+      "args": [
+        "--config",
+        "./ui5-local.yaml",
+        "--open",
+        "test/flpSandbox.html#cominvoiceappairditinvoiceappr-display"
+      ],
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture": "std",
+      "env": {
+        "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false",
+        "run.config": "{\"handlerId\":\"fiori_tools\",\"runnableId\":\"/home/user/projects/AISP_SES_CREATION/aisp_customer_portal\"}"
+      }
+    },
+    {
+      "name": "Start aisp_customer_portal Mock",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/aisp_customer_portal",
+      "runtimeExecutable": "npx",
+      "windows": {
+        "runtimeExecutable": "npx.cmd"
+      },
+      "runtimeArgs": [
+        "fiori",
+        "run"
+      ],
+      "args": [
+        "--config",
+        "./ui5-mock.yaml",
+        "--open",
+        "test/flpSandbox.html#cominvoiceappairditinvoiceappr-display"
+      ],
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture": "std",
+      "env": {
+        "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false",
+        "run.config": "{\"handlerId\":\"fiori_tools\",\"runnableId\":\"/home/user/projects/AISP_SES_CREATION/aisp_customer_portal\"}"
+      }
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <!-- Table for unplanned items -->
+    <Table
+        id="productsTableUnplanned"
+        inset="false"
+        items="{selItemModel>/items}"
+        class="sapFDynamicPageAlignContent"
+        width="100%"
+        mode="MultiSelect"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Text text="Item No/Details: {poDetailModel>/0/Ebelp}" />
+                <ToolbarSpacer />
+                <Button
+                    icon="sap-icon://add"
+                    text="Add"
+                    press="onAddPress"
+                />
+                <Button
+                    icon="sap-icon://edit"
+                    text="Edit"
+                    press="onEditPress"
+                />
+                <Button
+                    icon="sap-icon://delete"
+                    text="Delete"
+                    press="onDeletePress"
+                />
+                <Button icon="sap-icon://excel-attachment" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+            <Column>
+                <Text text="Sr No" />
+            </Column>
+            <Column>
+                <Text text="Service Number" />
+            </Column>
+            <Column width="15em">
+                <Text text="Service Description" />
+            </Column>
+            <Column>
+                <Text text="UOM" />
+            </Column>
+            <Column>
+                <Text text="Unit Price" />
+            </Column>
+            <Column>
+                <Text text="Service Quantity" />
+            </Column>
+            <Column>
+                <Text text="Total Price" />
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem>
+                <cells>
+                    <!-- Conditionally render Text or Input -->
+                    <Text text="{selItemModel>SR_NO}" />
+                    <Input
+                        id="idUnplannedSrvNoInput"
+                        value="{selItemModel>SERVICE_NUMBER}"
+                        liveChange="onInputChange"
+                        showValueHelp="true"
+                        valueHelpRequest="onServiceNumberValueHelp"
+                    />
+                    <Input
+                        id="idUnplannedSrvDescInput"
+                        value="{selItemModel>SERVICE_DESCRIPTION}"
+                        liveChange="onInputChange"
+                    />
+                    <Text text="{selItemModel>UNIT_OF_MEASURE}" />
+                    <Input
+                        id="idUnplannedUnitPriceInput"
+                        value="{selItemModel>UNIT_PRICE}"
+                        type="Number"
+                        liveChange="onInputChange"
+                    />
+                    <Input
+                        id="idUnplannedSrvQtyInput"
+                        value="{selItemModel>SERVICE_QUANTITY}"
+                        type="Number"
+                        liveChange="onInputChange"
+                    />
+                    <Text text="{selItemModel>TOTAL_PRICE}" />
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</core:FragmentDefinition>

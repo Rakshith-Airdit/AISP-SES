@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZP_AISP_SES_UPSES_SRBSampleService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="ZP_AISP_SES_ITEM_DETAIL" EntityType="ZP_AISP_SES_UPSES_SRBSampleService.ZP_AISP_SES_ITEM_DETAIL" sap:deletable-path="Delete_mc" sap:updatable-path="Update_mc" sap:label="Projection view for Existing SES item Details"/>
+                <EntitySet Name="ZP_AISP_SES_HDR" EntityType="ZP_AISP_SES_UPSES_SRBSampleService.ZP_AISP_SES_HDR" sap:deletable-path="Delete_mc" sap:updatable-path="Update_mc" sap:label="Projection View for Service Entry sheet Details"/>
+                <EntitySet Name="ZI_AISP_ServicesVH" EntityType="ZP_AISP_SES_UPSES_SRBSampleService.ZI_AISP_ServicesVH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:label="Services Value Help"/>
+                <EntitySet Name="SESHeaderList" EntityType="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList"/>
+                <EntitySet Name="SESItemList" EntityType="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList"/>
+                <EntitySet Name="SES_Head" EntityType="ZP_AISP_SES_UPSES_SRBSampleService.SES_Head"/>
+                <EntitySet Name="SES_Item" EntityType="ZP_AISP_SES_UPSES_SRBSampleService.SES_Item"/>
+                <EntitySet Name="SES_Attachment" EntityType="ZP_AISP_SES_UPSES_SRBSampleService.SES_Attachment"/>
+                <FunctionImport Name="submitSES" ReturnType="ZP_AISP_SES_UPSES_SRBSampleService.return_ZP_AISP_SES_UPSES_SRBSampleService_submitSES" m:HttpMethod="POST">
+                    <Parameter Name="action" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="REQUEST_NO" Type="Edm.Int32" Mode="In" Nullable="true"/>
+                    <Parameter Name="servicehead" Type="Collection(ZP_AISP_SES_UPSES_SRBSampleService.SES_Head)" Nullable="false" Mode="In"/>
+                    <Parameter Name="serviceitem" Type="Collection(ZP_AISP_SES_UPSES_SRBSampleService.SES_Item)" Nullable="false" Mode="In"/>
+                    <Parameter Name="attachments" Type="Collection(ZP_AISP_SES_UPSES_SRBSampleService.SES_Attachment)" Nullable="false" Mode="In"/>
+                    <Parameter Name="PO_TYPE" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="TOTAL_AMOUNT" Type="Edm.Int32" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <AssociationSet Name="SES_Head_to_Items" Association="ZP_AISP_SES_UPSES_SRBSampleService.SES_Head_to_Items">
+                    <End Role="SES_Head" EntitySet="SES_Head"/>
+                    <End Role="SES_Item" EntitySet="SES_Item"/>
+                </AssociationSet>
+                <AssociationSet Name="SES_Head_to_Attachments" Association="ZP_AISP_SES_UPSES_SRBSampleService.SES_Head_to_Attachments">
+                    <End Role="SES_Head" EntitySet="SES_Head"/>
+                    <End Role="SES_Attachment" EntitySet="SES_Attachment"/>
+                </AssociationSet>
+            </EntityContainer>
+            <EntityType Name="ZP_AISP_SES_ITEM_DETAIL" sap:content-version="1" sap:label="Projection view for Existing SES item Details">
+                <Key>
+                    <PropertyRef Name="Ebeln"/>
+                    <PropertyRef Name="Ebelp"/>
+                    <PropertyRef Name="packno"/>
+                    <PropertyRef Name="introw"/>
+                </Key>
+                <Property Name="Delete_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Update_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ebeln" Type="Edm.String" MaxLength="10" Nullable="false" sap:display-format="UpperCase" sap:label="Purchasing Document" sap:quickinfo="Purchasing Document Number" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Ebelp" Type="Edm.String" MaxLength="5" Nullable="false" sap:display-format="NonNegative" sap:label="Item" sap:quickinfo="Item Number of Purchasing Document"/>
+                <Property Name="packno" Type="Edm.String" MaxLength="10" Nullable="false" sap:display-format="NonNegative" sap:label="Package number"/>
+                <Property Name="introw" Type="Edm.String" MaxLength="10" Nullable="false" sap:display-format="NonNegative" sap:label="Line" sap:quickinfo="Line Number"/>
+                <Property Name="packageNofromPO" Type="Edm.String" MaxLength="10" sap:display-format="NonNegative" sap:label="Package number"/>
+                <Property Name="sub_packno" Type="Edm.String" MaxLength="10" sap:display-format="NonNegative" sap:label="Package" sap:quickinfo="Subpackage number"/>
+                <Property Name="extrow" Type="Edm.String" MaxLength="10" sap:display-format="NonNegative" sap:label="Line Number"/>
+                <Property Name="srvpos" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Activity number" sap:quickinfo="Activity Number"/>
+                <Property Name="menge" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="meins" sap:label="Quantity" sap:quickinfo="Quantity with Sign"/>
+                <Property Name="waers" Type="Edm.String" MaxLength="5" sap:label="Currency" sap:quickinfo="Currency Key" sap:semantics="currency-code"/>
+                <Property Name="tbtwr" Type="Edm.Decimal" Precision="11" Scale="3" sap:unit="waers" sap:variable-scale="true" sap:label="Gross Price"/>
+                <Property Name="netwr" Type="Edm.Decimal" Precision="11" Scale="3" sap:unit="waers" sap:variable-scale="true" sap:label="Net Value" sap:quickinfo="Net Value of Item"/>
+                <Property Name="meins" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="ktext1" Type="Edm.String" MaxLength="40" sap:label="Short Text"/>
+                <Property Name="act_menge" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="meins" sap:label="Entered Quantity" sap:quickinfo="Purchase Order: Entered Quantity"/>
+                <Property Name="final_entry" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading=""/>
+                <Property Name="shortText" Type="Edm.String" MaxLength="40" sap:label="Name" sap:quickinfo="Text, 40 Characters Long"/>
+                <Property Name="sitePerson" Type="Edm.String" MaxLength="12" sap:label="PersRsp.Int." sap:quickinfo="Person Responsible (Internally)"/>
+                <Property Name="personresp" Type="Edm.String" MaxLength="12" sap:label="PersRsp.Ext." sap:quickinfo="Person Responsible (Externally)"/>
+                <Property Name="from_date" Type="Edm.DateTime" sap:display-format="Date" sap:label="Date"/>
+                <Property Name="end_date" Type="Edm.DateTime" sap:display-format="Date" sap:label="Date"/>
+                <Property Name="SESLineItemStatus" Type="Edm.String" MaxLength="9"/>
+                <Property Name="TOTAL_ACTVALUE" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="waers" sap:variable-scale="true"/>
+                <Property Name="TOTAL_SUMLIMIT" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="waers" sap:variable-scale="true"/>
+                <Property Name="pending_limit" Type="Edm.Decimal" Precision="14" Scale="3" sap:unit="waers" sap:variable-scale="true"/>
+                <Property Name="asktx" Type="Edm.String" MaxLength="40"/>
+            </EntityType>
+            <EntityType Name="ZP_AISP_SES_HDR" sap:content-version="1" sap:label="Projection View for Service Entry sheet Details">
+                <Key>
+                    <PropertyRef Name="Ebeln"/>
+                </Key>
+                <Property Name="Delete_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Update_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="to_sesitems_oc" Type="Edm.Boolean" sap:label="Dynamic CbA-Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ebeln" Type="Edm.String" MaxLength="10" Nullable="false" sap:display-format="UpperCase" sap:label="Purchasing Document" sap:quickinfo="Purchasing Document Number"/>
+                <Property Name="Bukrs" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Company Code"/>
+                <Property Name="Bstyp" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Purch. Doc. Category" sap:quickinfo="Purchasing Document Category"/>
+                <Property Name="Bsart" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Purchasing Doc. Type" sap:quickinfo="Purchasing Document Type"/>
+                <Property Name="Aedat" Type="Edm.DateTime" sap:display-format="Date" sap:label="Created On" sap:quickinfo="Creation Date of Purchasing Document"/>
+                <Property Name="Ernam" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Created By" sap:quickinfo="User of person who created a purchasing document"/>
+                <Property Name="Lifnr" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Supplier" sap:quickinfo="Vendor's account number"/>
+                <Property Name="LIFNR_NAME" Type="Edm.String" MaxLength="35" sap:label="Name" sap:quickinfo="Name 1"/>
+                <Property Name="Ekorg" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Purch. organization" sap:quickinfo="Purchasing organization"/>
+                <Property Name="Ekgrp" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Purchasing Group"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:label="Currency" sap:quickinfo="Currency Key" sap:semantics="currency-code"/>
+                <Property Name="Amount" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="Waers" sap:variable-scale="true"/>
+                <Property Name="HeaderStaus" Type="Edm.String" MaxLength="9"/>
+                <Property Name="ServicePOType" Type="Edm.String" MaxLength="10"/>
+                <Property Name="person_res_intr" Type="Edm.String" MaxLength="12"/>
+                <Property Name="person_res_extr" Type="Edm.String" MaxLength="12"/>
+                <Property Name="location" Type="Edm.String" MaxLength="12"/>
+                <Property Name="short_text" Type="Edm.String" MaxLength="40"/>
+                <Property Name="from_date" Type="Edm.DateTime" sap:display-format="Date" sap:label="Date"/>
+                <Property Name="end_date" Type="Edm.DateTime" sap:display-format="Date" sap:label="Date"/>
+            </EntityType>
+            <EntityType Name="ZI_AISP_ServicesVH" sap:content-version="1" sap:label="Services Value Help">
+                <Key>
+                    <PropertyRef Name="ServiceNumber"/>
+                    <PropertyRef Name="LanguageKey"/>
+                </Key>
+                <Property Name="ServiceNumber" Type="Edm.String" MaxLength="18" Nullable="false" sap:display-format="UpperCase" sap:label="Activity number" sap:quickinfo="Activity Number"/>
+                <Property Name="LanguageKey" Type="Edm.String" MaxLength="2" Nullable="false" sap:label="Language Key"/>
+                <Property Name="ServiceText" Type="Edm.String" MaxLength="40" sap:label="Service Short Text"/>
+            </EntityType>
+            <EntityType Name="SESHeaderList">
+                <Key>
+                    <PropertyRef Name="Ebeln"/>
+                </Key>
+                <Property Name="Ebeln" Type="Edm.String" Nullable="false"/>
+                <Property Name="Bukrs" Type="Edm.String"/>
+                <Property Name="Bstyp" Type="Edm.String"/>
+                <Property Name="Bsart" Type="Edm.String"/>
+                <Property Name="Aedat" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="Ernam" Type="Edm.String"/>
+                <Property Name="Lifnr" Type="Edm.String"/>
+                <Property Name="LIFNR_NAME" Type="Edm.String"/>
+                <Property Name="Ekorg" Type="Edm.String"/>
+                <Property Name="Ekgrp" Type="Edm.String"/>
+                <Property Name="Waers" Type="Edm.String"/>
+                <Property Name="Amount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+                <Property Name="HeaderStaus" Type="Edm.String"/>
+                <Property Name="ServicePOType" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="SESItemList">
+                <Key>
+                    <PropertyRef Name="PO_NUMBER"/>
+                    <PropertyRef Name="ITEM_NUMBER"/>
+                </Key>
+                <Property Name="PO_NUMBER" Type="Edm.String" Nullable="false"/>
+                <Property Name="ITEM_NUMBER" Type="Edm.String" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.String"/>
+                <Property Name="SERVICE_NUMBER" Type="Edm.String"/>
+                <Property Name="SERVICE_DESCRIPTION" Type="Edm.String"/>
+                <Property Name="ORDERED_QUANTITY" Type="Edm.Int32"/>
+                <Property Name="UNIT_OF_MEASURE" Type="Edm.String"/>
+                <Property Name="UNIT_PRICE" Type="Edm.Int32"/>
+                <Property Name="SERVICE_QUANTITY" Type="Edm.Int32"/>
+                <Property Name="TOTAL_PRICE" Type="Edm.Int32"/>
+                <Property Name="PENDING_LIMIT" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="SES_Head">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="SERVICE_PERIOD" Type="Edm.String"/>
+                <Property Name="PO_NUMBER" Type="Edm.String"/>
+                <Property Name="SES_STATUS" Type="Edm.String"/>
+                <Property Name="VENDOR_STATUS" Type="Edm.String"/>
+                <Property Name="AMOUNT" Type="Edm.String"/>
+                <Property Name="SERVICE_LOCATION" Type="Edm.String"/>
+                <Property Name="PERSON_RESPONSIBLE" Type="Edm.String"/>
+                <Property Name="CURRENT_ASSIGNEE" Type="Edm.String"/>
+                <Property Name="COMPANY_CODE" Type="Edm.String"/>
+                <Property Name="APPROVER_ROLE" Type="Edm.String"/>
+                <Property Name="REQUESTER_ID" Type="Edm.String"/>
+                <Property Name="APPROVER_LEVEL" Type="Edm.String"/>
+                <Property Name="LAST_UPDATED_ON" Type="Edm.String"/>
+                <Property Name="CREATED_ON" Type="Edm.String"/>
+                <Property Name="PROCESS_LEVEL" Type="Edm.String"/>
+                <Property Name="SUPPLIER_NUMBER" Type="Edm.String"/>
+                <Property Name="SUPPLIER_NAME" Type="Edm.String"/>
+                <Property Name="FINAL_SES_ENTRY" Type="Edm.String"/>
+                <Property Name="SITE_PERSON" Type="Edm.String"/>
+                <Property Name="SERVICE_TEXT" Type="Edm.String"/>
+                <Property Name="COMMENT" Type="Edm.String"/>
+                <Property Name="ServicePOType" Type="Edm.String"/>
+                <Property Name="TYPE" Type="Edm.String"/>
+                <NavigationProperty Name="to_Items" Relationship="ZP_AISP_SES_UPSES_SRBSampleService.SES_Head_to_Items" FromRole="SES_Head" ToRole="SES_Item"/>
+                <NavigationProperty Name="to_Attachments" Relationship="ZP_AISP_SES_UPSES_SRBSampleService.SES_Head_to_Attachments" FromRole="SES_Head" ToRole="SES_Attachment"/>
+            </EntityType>
+            <EntityType Name="SES_Item">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="SR_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.String" Nullable="false"/>
+                <Property Name="SERVICE_NUMBER" Type="Edm.String"/>
+                <Property Name="SERVICE_DESCRIPTION" Type="Edm.String"/>
+                <Property Name="ORDERED_QUANTITY" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="UNIT_OF_MEASURE" Type="Edm.String"/>
+                <Property Name="UNIT_PRICE" Type="Edm.Decimal" Precision="15" Scale="2"/>
+                <Property Name="SERVICE_QUANTITY" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TOTAL_PRICE" Type="Edm.Decimal" Precision="15" Scale="2"/>
+                <Property Name="ITEM_NUMBER" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="SES_Attachment">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="DESCRIPTION"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="DESCRIPTION" Type="Edm.String" Nullable="false"/>
+                <Property Name="base64value" Type="Edm.Binary"/>
+                <Property Name="COMMENT" Type="Edm.String"/>
+                <Property Name="TYPE" Type="Edm.String"/>
+                <Property Name="URL" Type="Edm.String"/>
+            </EntityType>
+            <ComplexType Name="return_ZP_AISP_SES_UPSES_SRBSampleService_submitSES">
+                <Property Name="returnMessage" Type="Edm.String"/>
+            </ComplexType>
+            <Association Name="SES_Head_to_Items">
+                <End Role="SES_Head" Type="ZP_AISP_SES_UPSES_SRBSampleService.SES_Head" Multiplicity="*"/>
+                <End Role="SES_Item" Type="ZP_AISP_SES_UPSES_SRBSampleService.SES_Item" Multiplicity="*"/>
+            </Association>
+            <Association Name="SES_Head_to_Attachments">
+                <End Role="SES_Head" Type="ZP_AISP_SES_UPSES_SRBSampleService.SES_Head" Multiplicity="*"/>
+                <End Role="SES_Attachment" Type="ZP_AISP_SES_UPSES_SRBSampleService.SES_Attachment" Multiplicity="*"/>
+            </Association>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.EntityContainer/ZP_AISP_SES_ITEM_DETAIL" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.EntityContainer/ZP_AISP_SES_HDR" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.EntityContainer/ZI_AISP_ServicesVH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Ebeln" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="PO Number"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Bukrs" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Company Code"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Bstyp" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Document Category"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Bsart" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Document Type"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Aedat" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Order Date"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Ernam" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Lifnr" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Supplier Code"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/LIFNR_NAME" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Supplier Name"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Ekorg" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Purchasing Organization"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Ekgrp" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Purchasing Group"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Waers" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Currency"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/Amount" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="PO Amount"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/HeaderStaus" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Status"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESHeaderList/ServicePOType" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="PO Service Type"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/PO_NUMBER" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="PO Number"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/ITEM_NUMBER" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Item Number"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/SR_NO" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Serial Number"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/SERVICE_NUMBER" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Service Number"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/SERVICE_DESCRIPTION" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Service Description"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/ORDERED_QUANTITY" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Ordered Quantity"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/UNIT_OF_MEASURE" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Unit of Measure"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/UNIT_PRICE" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Unit Price"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/SERVICE_QUANTITY" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Serviced Quantity"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/TOTAL_PRICE" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Total Price"/>
+            </Annotations>
+            <Annotations Target="ZP_AISP_SES_UPSES_SRBSampleService.SESItemList/PENDING_LIMIT" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Label" String="Pending Limit"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

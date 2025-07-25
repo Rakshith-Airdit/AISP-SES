@@ -1,0 +1,159 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <VBox>
+        <HBox>
+            <m:Table
+                xmlns:m="sap.m"
+                id="idSrvEntryViewTable"
+                items="{tableModel>/results}"
+                inset="false"
+                width="auto"
+                visible="{= !${viewStateModel>/isEditMode} }"
+            >
+                <m:headerToolbar>
+                    <m:Toolbar>
+                        <m:Title
+                            text="Item Details"
+                            level="H2"
+                        />
+                        <!-- Additional toolbar buttons, if needed -->
+                    </m:Toolbar>
+                </m:headerToolbar>
+
+                <!-- Define Columns -->
+                <m:columns>
+                    <m:Column width="auto">
+                        <m:Text text="Sr No" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Service Number" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Service Description" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Ordered Quantity" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="UOM" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Unit Price" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Serviced Quantity" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Total Price" />
+                    </m:Column>
+                </m:columns>
+
+                <!-- Each Row -->
+                <m:items>
+                    <m:ColumnListItem>
+                        <m:cells>
+                            <!-- PO Number -->
+                            <m:Text text="{tableModel>SR_NO}" />
+                            <!-- ASN Number -->
+                            <m:Text text="{tableModel>SERVICE_NUMBER}" />
+                            <!-- Item No -->
+                            <m:Text text="{tableModel>SERVICE_DESCRIPTION}" />
+                            <!-- Material Description -->
+                            <m:Text text="{tableModel>ORDERED_QUANTITY}" />
+                            <!-- UOM -->
+                            <m:Text text="{tableModel>UNIT_OF_MEASURE}" />
+                            <!-- ASN Qty -->
+                            <m:ObjectNumber
+                                number="{tableModel>UNIT_PRICE}"
+                                unit="INR"
+                            />
+                            <!-- ASN Amt -->
+                            <m:Text text="{tableModel>SERVICE_QUANTITY}" />
+                            <!-- GRN Qty -->
+                            <m:Text text="{tableModel>TOTAL_PRICE}" />
+                        </m:cells>
+                    </m:ColumnListItem>
+                </m:items>
+            </m:Table>
+        </HBox>
+
+        <HBox>
+            <m:Table
+                xmlns:m="sap.m"
+                id="idSrvEntryEditTable"
+                items="{tableModel>/results}"
+                inset="false"
+                width="auto"
+                visible="{= ${viewStateModel>/isEditMode} }"
+            >
+                <m:headerToolbar>
+                    <m:Toolbar>
+                        <m:Title
+                            text="Item Details"
+                            level="H2"
+                        />
+                        <!-- Additional toolbar buttons, if needed -->
+                    </m:Toolbar>
+                </m:headerToolbar>
+
+                <!-- Define Columns -->
+                <m:columns>
+                    <m:Column width="auto">
+                        <m:Text text="Sr No" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Service Number" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Service Description" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="UOM" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Unit Price" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Service Quantity" />
+                    </m:Column>
+                    <m:Column width="auto">
+                        <m:Text text="Total Price" />
+                    </m:Column>
+                </m:columns>
+
+                <!-- Each Row -->
+                <m:items>
+                    <m:ColumnListItem>
+                        <m:cells>
+                            <m:Text text="{tableModel>SR_NO}" />
+                            <m:Input
+                                id="idSrvNoInp"
+                                value="{tableModel>SERVICE_NUMBER}"
+                                liveChange="onInputChange"
+                            />
+                            <m:Input
+                                id="idSrvDescInp"
+                                value="{tableModel>SERVICE_DESCRIPTION}"
+                                liveChange="onInputChange"
+                            />
+                            <m:Text text="{tableModel>UNIT_OF_MEASURE}" />
+                            <m:Input
+                                id="idUnitPriceInp"
+                                value="{tableModel>UNIT_PRICE}"
+                                liveChange="onInputChange"
+                            />
+                            <m:Input
+                                id="idSrvQtyInp"
+                                value="{tableModel>SERVICE_QUANTITY}"
+                                liveChange="onInputChange"
+                            />
+                            <m:Text text="{tableModel>TOTAL_PRICE}" />
+                        </m:cells>
+                    </m:ColumnListItem>
+                </m:items>
+            </m:Table>
+        </HBox>
+    </VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,300 @@
+<mvc:View
+    controllerName="com.aisp.aispsupplierportal.controller.ListReport"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+>
+    <Page title="SES Creation">
+        <content>
+            <f:DynamicPage>
+                <!-- Page Title -->
+                <!-- <f:title>
+                    <f:DynamicPageTitle>
+                        <f:heading>
+                            <HBox>
+                                <Title text="SES Creation" />
+                            </HBox>
+                        </f:heading>
+                    </f:DynamicPageTitle>
+                </f:title> -->
+
+                <!-- Page Header -->
+                <f:header>
+                    <f:DynamicPageHeader>
+                        <VBox>
+                            <!-- Page Filters -->
+                            <smartFilterBar:SmartFilterBar
+                                id="idSmartFilter_1"
+                                entitySet="SESHeaderList"
+                                persistencyKey="SmartFilterPKey"
+                                useToolbar="true"
+                                visible="true"
+                                showFilterConfiguration="false"
+                            >
+                                <smartFilterBar:controlConfiguration>
+                                    <smartFilterBar:ControlConfiguration
+                                        key="Aedat"
+                                        index="3"
+                                        label="Order Date"
+                                        visibleInAdvancedArea="true"
+                                        conditionType="{
+                                            module: 'sap.ui.comp.config.condition.DateRangeType'
+                                        }"
+                                    />
+                                </smartFilterBar:controlConfiguration>
+                                <smartFilterBar:layoutData>
+                                    <FlexItemData shrinkFactor="0" />
+                                </smartFilterBar:layoutData>
+                            </smartFilterBar:SmartFilterBar>
+
+                            <smartFilterBar:SmartFilterBar
+                                id="idSmartFilter_2"
+                                entitySet="SES_Head"
+                                useToolbar="true"
+                                persistencyKey="SmartFilter2"
+                                visible="false"
+                            >
+                                <smartFilterBar:controlConfiguration>
+                                    <smartFilterBar:ControlConfiguration
+                                        key="CREATED_ON"
+                                        index="3"
+                                        label="Created Date"
+                                        visibleInAdvancedArea="true"
+                                        conditionType="{
+                                            module: 'sap.ui.comp.config.condition.DateRangeType'
+                                        }"
+                                    >
+                                        <smartFilterBar:customControl>
+                                            <DatePicker change="onDateChange" />
+                                        </smartFilterBar:customControl>
+                                    </smartFilterBar:ControlConfiguration>
+                                </smartFilterBar:controlConfiguration>
+
+                                <smartFilterBar:layoutData>
+                                    <FlexItemData shrinkFactor="0" />
+                                </smartFilterBar:layoutData>
+                            </smartFilterBar:SmartFilterBar>
+                        </VBox>
+                    </f:DynamicPageHeader>
+                </f:header>
+
+                <!-- Page Content -->
+                <f:content>
+                    <IconTabBar
+                        id="idIconTabBar"
+                        expanded="{device>/isNoPhone}"
+                        select="onIconTabBarSelect"
+                    >
+                        <items>
+                            <!-- Open Service PO Table [Planned & Unplanned] => SESHeaderList-->
+                            <IconTabFilter
+                                icon="./Images/open.png"
+                                key="OpenSRVPO"
+                                iconColor="NonInteractive"
+                                text="Open Service PO's"
+                                tooltip="Open Service PO's"
+                            >
+                                <smartTable:SmartTable
+                                    id="idOpenSrvPOTable"
+                                    entitySet="SESHeaderList"
+                                    smartFilterId="idSmartFilter_1"
+                                    tableType="ResponsiveTable"
+                                    showRowCount="true"
+                                    enableAutoBinding="true"
+                                    header="Open Service PO's"
+                                    enableAutoColumnWidth="false"
+                                    placeToolbarInTable="true"
+                                    beforeRebindTable="onBeforeRebindTable"
+                                    enableCopy="false"
+                                    persistencyKey="SmartFilterPKey"
+                                    ignoredFields="Bstyp,Bsart,Ekorg,Ekgrp,ServicePOType"
+                                >
+                                    <Table
+                                        id="idServicePOTable"
+                                        mode="None"
+                                        growing="true"
+                                        growingThreshold="10"
+                                    >
+                                        <columns>
+                                            <Column
+                                                visible="true"
+                                                hAlign="Left"
+                                            >
+                                                <customData>
+                                                    <core:CustomData
+                                                        key="p13nData"
+                                                        value='\{"columnKey": "Aedat", "leadingProperty": "Aedat", "sortProperty": "Aedat", "filterProperty": "Aedat", "columnIndex": "2"}'
+                                                    />
+                                                </customData>
+                                                <Label
+                                                    text="Order Date"
+                                                    wrapping="false"
+                                                />
+                                            </Column>
+                                            <Column
+                                                visible="true"
+                                                hAlign="Center"
+                                            >
+                                                <customData>
+                                                    <core:CustomData
+                                                        key="p13nData"
+                                                        value='\{"columnKey": "Amount", "leadingProperty": "Amount", "sortProperty": "Amount", "filterProperty": "Amount", "columnIndex": "3"}'
+                                                    />
+                                                </customData>
+                                                <Label
+                                                    text="Amount"
+                                                    wrapping="false"
+                                                />
+                                            </Column>
+                                            <Column
+                                                visible="true"
+                                                hAlign="Left"
+                                            >
+                                                <customData>
+                                                    <core:CustomData
+                                                        key="p13nData"
+                                                        value='\{"columnKey": "HeaderStaus", "leadingProperty": "HeaderStaus", "sortProperty": "HeaderStaus", "filterProperty": "HeaderStaus", "columnIndex": "4"}'
+                                                    />
+                                                </customData>
+                                                <Label
+                                                    text="Status"
+                                                    wrapping="false"
+                                                />
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem
+                                                vAlign="Middle"
+                                                type="Navigation"
+                                                press="onListItemPress"
+                                            >
+                                                <cells>
+                                                    <Text
+                                                        text="{path: 'Aedat', formatter: '.formatDate'}"
+                                                    />
+                                                    <ObjectNumber
+                                                        number="{Amount}"
+                                                        unit="INR"
+                                                    />
+                                                    <ObjectStatus
+                                                        text="{HeaderStaus}"
+                                                        state="{path: 'HeaderStaus', formatter: '.formatStatusState'}"
+                                                        inverted="true"
+                                                    />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </smartTable:SmartTable>
+                            </IconTabFilter>
+
+                            <!-- Service Entry Sheet => SES_HEAD -->
+                            <IconTabFilter
+                                icon="./Images/objPageIcon.png"
+                                key="SRVEntrySheet"
+                                iconColor="Positive"
+                                text="Service Entry Sheet"
+                                tooltip="Service Entry Sheet"
+                            >
+                                <smartTable:SmartTable
+                                    id="idServiceEntrySmartTable"
+                                    entitySet="SES_Head"
+                                    smartFilterId="idSmartFilter_2"
+                                    tableType="ResponsiveTable"
+                                    showRowCount="true"
+                                    enableAutoBinding="true"
+                                    header="Service Entry Sheet"
+                                    enableAutoColumnWidth="false"
+                                    placeToolbarInTable="true"
+                                    beforeRebindTable="onBeforeRebindTable"
+                                    enableCopy="false"
+                                    ignoredFields="SERVICE_PERIOD,SERVICE_LOCATION,PERSON_RESPONSIBLE,CURRENT_ASSIGNEE,APPROVER_ROLE,REQUESTER_ID,APPROVER_LEVEL,PROCESS_LEVEL,FINAL_SES_ENTRY,SITE_PERSON,SERVICE_TEXT,COMMENT,TYPE,SAP_REFERENCE_NUMBER"
+                                >
+                                    <Table
+                                        id="idServiceEntryTable"
+                                        mode="None"
+                                        growing="true"
+                                        growingThreshold="10"
+                                        width="100%"
+                                        updateFinished="onTableUpdateFinished"
+                                    >
+                                        <columns>
+                                            <Column visible="true">
+                                                <customData>
+                                                    <core:CustomData
+                                                        key="p13nData"
+                                                        value='\{"columnKey": "REQUEST_NO", "leadingProperty": "REQUEST_NO", "sortProperty": "REQUEST_NO", "filterProperty": "REQUEST_NO", "columnIndex": "0"}'
+                                                    />
+                                                </customData>
+                                                <Label
+                                                    text="Request No"
+                                                    wrapping="false"
+                                                />
+                                            </Column>
+                                            <Column
+                                                visible="true"
+                                                hAlign="Center"
+                                            >
+                                                <customData>
+                                                    <core:CustomData
+                                                        key="p13nData"
+                                                        value='\{"columnKey": "total_service_sheet_value", "leadingProperty": "total_service_sheet_value", "sortProperty": "total_service_sheet_value", "filterProperty": "total_service_sheet_value", "columnIndex": "3"}'
+                                                    />
+                                                </customData>
+                                                <Label
+                                                    text="Amount"
+                                                    wrapping="false"
+                                                />
+                                            </Column>
+                                            <Column
+                                                visible="true"
+                                                hAlign="Begin"
+                                            >
+                                                <customData>
+                                                    <core:CustomData
+                                                        key="p13nData"
+                                                        value='\{"columnKey": "SES_STATUS", "leadingProperty": "SES_STATUS", "sortProperty": "SES_STATUS", "filterProperty": "SES_STATUS", "columnIndex": "4"}'
+                                                    />
+                                                </customData>
+                                                <Label
+                                                    text="Status"
+                                                    wrapping="false"
+                                                />
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem
+                                                vAlign="Middle"
+                                                type="Navigation"
+                                                press="onListItemPress"
+                                            >
+                                                <cells>
+                                                    <Text text="{REQUEST_NO}" />
+                                                    <ObjectNumber
+                                                        number="{total_service_sheet_value}"
+                                                        unit="INR"
+                                                    />
+                                                    <ObjectStatus
+                                                        text="{SES_STATUS}"
+                                                        state="{path: 'SES_STATUS', formatter: '.formatSESStatusState'}"
+                                                        inverted="true"
+                                                        class="idSESHeadObjSts"
+                                                    />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </smartTable:SmartTable>
+                            </IconTabFilter>
+                        </items>
+                    </IconTabBar>
+                </f:content>
+                <f:footer />
+            </f:DynamicPage>
+        </content>
+    </Page>
+</mvc:View>

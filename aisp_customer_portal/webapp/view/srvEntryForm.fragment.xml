@@ -1,0 +1,125 @@
+<core:FragmentDefinition
+    xmlns:m="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+>
+    <form:SimpleForm
+        editable="true"
+        layout="ColumnLayout"
+        columnsM="3"
+        columnsL="3"
+        columnsXL="3"
+        id="idSrvEntryViewForm"
+    >
+        <m:Label
+            text="Service Period"
+            labelFor="idServiceEntryViewPeriod"
+        />
+        <m:Text
+            id="idServiceEntryViewPeriod"
+            text="{oResData>/SERVICE_PERIOD}"
+        />
+        <m:Label
+            text="Service Location"
+            labelFor="idServiceEntryViewLocation"
+        />
+        <m:Text
+            id="idServiceEntryViewLocation"
+            text="{oResData>/SERVICE_LOCATION}"
+        />
+        <m:Label
+            text="Person Responsible"
+            labelFor="idServiceEntryViewPersonResponsible"
+        />
+        <m:Text
+            id="idServiceEntryViewPersonResponsible"
+            text="{oResData>/PERSON_RESPONSIBLE}"
+        />
+        <m:Label
+            text="Final SES Entry"
+            labelFor="idFinalViewSESEntry"
+        />
+        <m:Input
+            id="idFinalViewSESEntry"
+            value="{oResData>/FINAL_SES_ENTRY}"
+            placeholder="Final SES Entry"
+        />
+        <m:Label
+            text="Site Person"
+            labelFor="idViewSitePerson"
+        />
+        <m:Input
+            id="idViewSitePerson"
+            value="{oResData>/SITE_PERSON}"
+            placeholder="Site Person"
+        />
+        <m:Label
+            text="Service Text"
+            labelFor="idViewServiceText"
+        />
+        <m:Input
+            id="idViewServiceText"
+            value="{oResData>/SERVICE_TEXT}"
+            placeholder="Service Text"
+        />
+    </form:SimpleForm>
+
+    <form:SimpleForm
+        editable="true"
+        layout="ColumnLayout"
+        columnsM="3"
+        columnsL="3"
+        columnsXL="3"
+        id="idSrvEntryEditForm"
+    >
+        <m:Label
+            text="Service Period"
+            labelFor="idEditServiceEntryPeriod"
+        />
+        <m:Text
+            id="idEditServiceEntryPeriod"
+            text="{oResData>/SERVICE_PERIOD}"
+        />
+        <m:Label
+            text="Service Location"
+            labelFor="idEditServiceEntryLocation"
+        />
+        <m:Text
+            id="idEditServiceEntryLocation"
+            text="{oResData>/SERVICE_LOCATION}"
+        />
+        <m:Label
+            text="Person Responsible"
+            labelFor="idEditServiceEntryPersonResponsible"
+        />
+        <m:Text
+            id="idEditServiceEntryPersonResponsible"
+            text="{oResData>/PERSON_RESPONSIBLE}"
+        />
+        <m:Label
+            text="Final SES Entry"
+            labelFor="idEditFinalSESEntry"
+        />
+        <m:Text
+            id="idEditFinalSESEntry"
+            text="{oResData>/FINAL_SES_ENTRY}"
+        />
+        <m:Label
+            text="Site Person"
+            labelFor="idEditSitePerson"
+        />
+        <m:Text
+            id="idEditSitePerson"
+            text="{oResData>/SITE_PERSON}"
+        />
+        <m:Label
+            text="Service Text"
+            labelFor="idEditServiceText"
+        />
+        <m:Input
+            id="idEditServiceText"
+            value="{oResData>/SERVICE_TEXT}"
+            placeholder="Service Text"
+        />
+    </form:SimpleForm>
+</core:FragmentDefinition>

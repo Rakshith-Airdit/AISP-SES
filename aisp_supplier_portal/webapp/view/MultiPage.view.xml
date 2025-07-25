@@ -1,0 +1,373 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:layout="sap.ui.layout"
+    xmlns="sap.m"
+    controllerName="com.aisp.aispsupplierportal.controller.MultiPage"
+    height="100%"
+    xmlns:l="sap.ui.layout"
+    xmlns:o="sap.uxap"
+>
+    <l:Splitter
+        id="mainSplitter"
+        height="100%"
+        class="noSplitterGrip"
+    >
+        <List
+            id="idSESHeaderList"
+            items="{/SESHeaderList}"
+            headerText="Open Service PO's"
+        >
+            <headerToolbar>
+                <OverflowToolbar>
+                    <SearchField
+                        placeholder="Search PO Number..."
+                        width="100%"
+                        liveChange=".onSearchSESHeaderList"
+                    />
+                </OverflowToolbar>
+            </headerToolbar>
+            <ObjectListItem
+                title="PO Number : {Ebeln}"
+                type="Active"
+                press=".onListItemPress"
+                number="Amount: {Amount}"
+                numberUnit="INR"
+            >
+                <firstStatus>
+                    <ObjectStatus
+                        text="{HeaderStaus}"
+                        inverted="true"
+                        state="{ path: 'HeaderStaus', formatter: '.formatStatusState' }"
+                    />
+                </firstStatus>
+
+                <ObjectAttribute
+                    text="Order Date: { path: 'Aedat', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"
+                />
+            </ObjectListItem>
+
+            <layoutData>
+                <l:SplitterLayoutData size="400px" />
+            </layoutData>
+        </List>
+
+        <o:ObjectPageLayout
+            id="idObjectPageLayout"
+            enableLazyLoading="true"
+            upperCaseAnchorBar="false"
+            showFooter="true"
+            height="100%"
+            subSectionLayout="TitleOnTop"
+        >
+            <o:headerTitle>
+                <o:ObjectPageDynamicHeaderTitle>
+                    <o:breadcrumbs>
+                        <Breadcrumbs
+                            currentLocationText="Service Entry Sheet Creation"
+                        >
+                            <Link
+                                text="Open Service PO's"
+                                press="handleLink1Press"
+                            />
+                        </Breadcrumbs>
+                    </o:breadcrumbs>
+
+                    <o:expandedHeading>
+                        <FlexBox alignItems="Center">
+                            <!-- Back Button -->
+                            <Button
+                                icon="sap-icon://nav-back"
+                                type="Transparent"
+                                press="onPressBack"
+                            />
+                            <!-- Title -->
+                            <Title
+                                text="Purchase Order NO: {poModel>/0/Ebeln}"
+                                wrapping="true"
+                                class="sapUiTinyMarginTop"
+                            />
+                        </FlexBox>
+                    </o:expandedHeading>
+                </o:ObjectPageDynamicHeaderTitle>
+            </o:headerTitle>
+
+            <o:headerContent>
+                <FlexBox
+                    wrap="Wrap"
+                    fitContainer="true"
+                >
+                    <Avatar
+                        displaySize="L"
+                        backgroundColor="Placeholder"
+                        displayShape="Square"
+                        press="onPress"
+                    />
+                    <layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
+                        <Text
+                            text="Order Date: { path: 'poModel>/0/Aedat', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"
+                        />
+                        <Text
+                            class="sapUiSmallMarginTop"
+                            text="Order Amount: {path: 'poModel>/0/Amount', formatter: '.formatOrderAmount'} INR"
+                        />
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout class="sapUiLargeMarginBeginEnd">
+                        <Text
+                            text="Service PO Type: {poModel>/0/ServicePOType}"
+                        />
+                        <Text
+                            class="sapUiSmallMarginTop"
+                            text="Created By: {poModel>/0/Ernam}"
+                        />
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout>
+                        <layout:HorizontalLayout>
+                            <Text
+                                text="Status:"
+                                class="sapUiTinyMarginEnd"
+                            />
+                            <ObjectStatus
+                                text="{poModel>/0/HeaderStaus}"
+                                inverted="true"
+                                state="{ path: 'poModel>/0/HeaderStaus', formatter: '.formatStatusState' }"
+                            />
+                        </layout:HorizontalLayout>
+                    </layout:VerticalLayout>
+                </FlexBox>
+            </o:headerContent>
+
+            <o:sections>
+                <!-- <o:ObjectPageSection
+                    titleUppercase="false"
+                    title="Details"
+                >
+                    <o:subSections>
+                        <o:ObjectPageSubSection
+                            title="Item Details"
+                            titleUppercase="false"
+                        >
+                            <o:blocks>
+                                <Table
+                                    id="idPODetailTable"
+                                    inset="false"
+                                    items="{poDetailModel>/}"
+                                    class="sapFDynamicPageAlignContent"
+                                    width="100%"
+                                    mode="{= ${serviceTypeModel>/srvType} === 'Un-planned' ? 'None' : 'MultiSelect' }"
+                                >
+                                    <headerToolbar>
+                                        <OverflowToolbar>
+                                            <Text
+                                                text="Item No/Details: {poDetailModel>/0/ITEM_NUMBER}"
+                                            />
+                                            <ToolbarSpacer />
+
+                                            <Button
+                                                text="Create Service Entry Sheet"
+                                                press="onCreateEntrySheet"
+                                            />
+                                            <Button
+                                                icon="sap-icon://excel-attachment"
+                                            />
+                                        </OverflowToolbar>
+                                    </headerToolbar>
+                                    <columns>
+                                        <Column>
+                                            <Text text="Sr No" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="Service Number" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="Service Description" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="Ordered Quantity" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="UOM" />
+                                        </Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <cells>
+                                                <Text
+                                                    text="{poDetailModel>SR_NO}"
+                                                />
+                                                <Text
+                                                    text="{poDetailModel>SERVICE_NUMBER}"
+                                                />
+                                                <Text
+                                                    text="{poDetailModel>SERVICE_DESCRIPTION}"
+                                                />
+                                                <Text
+                                                    text="{poDetailModel>ORDERED_QUANTITY}"
+                                                />
+                                                <Text
+                                                    text="{poDetailModel>UNIT_OF_MEASURE}"
+                                                />
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </o:blocks>
+                        </o:ObjectPageSubSection>
+                    </o:subSections>
+                </o:ObjectPageSection> -->
+                <!-- Item Details tab -->
+                <o:ObjectPageSection
+                    title="Item Details"
+                    id="detailsSection"
+                >
+                    <o:subSections>
+                        <o:ObjectPageSubSection>
+                            <o:blocks>
+                                <!-- your poDetailTable here -->
+                                <Table
+                                    id="idPODetailTable"
+                                    inset="false"
+                                    items="{poDetailModel>/}"
+                                    class="sapFDynamicPageAlignContent"
+                                    width="100%"
+                                    mode="{= ${serviceTypeModel>/srvType} === 'Un-planned' ? 'None' : 'MultiSelect' }"
+                                >
+                                    <headerToolbar>
+                                        <OverflowToolbar>
+                                            <Text
+                                                text="Item No/Details: {poDetailModel>/0/ITEM_NUMBER}"
+                                            />
+                                            <ToolbarSpacer />
+
+                                            <Button
+                                                text="Create Service Entry Sheet"
+                                                press="onCreateEntrySheet"
+                                            />
+                                            <Button
+                                                icon="sap-icon://excel-attachment"
+                                            />
+                                        </OverflowToolbar>
+                                    </headerToolbar>
+                                    <columns>
+                                        <Column>
+                                            <Text text="Sr No" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="Service Number" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="Service Description" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="Ordered Quantity" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="Serviced Quantity" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="UOM" />
+                                        </Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <cells>
+                                                <Text
+                                                    text="{poDetailModel>SR_NO}"
+                                                />
+                                                <Text
+                                                    text="{poDetailModel>SERVICE_NUMBER}"
+                                                />
+                                                <Text
+                                                    text="{poDetailModel>SERVICE_DESCRIPTION}"
+                                                />
+                                                <Text
+                                                    text="{poDetailModel>ORDERED_QUANTITY}"
+                                                />
+                                                <Text
+                                                    text="{poDetailModel>SERVICE_QUANTITY}"
+                                                />
+                                                <Text
+                                                    text="{poDetailModel>UNIT_OF_MEASURE}"
+                                                />
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </o:blocks>
+                        </o:ObjectPageSubSection>
+                    </o:subSections>
+                </o:ObjectPageSection>
+
+                <!-- Creation Logs tab -->
+                <o:ObjectPageSection
+                    title="Service Entry Sheet History"
+                    id="logsSection"
+                >
+                    <o:subSections>
+                        <o:ObjectPageSubSection>
+                            <o:blocks>
+                                <!-- your logsTable here -->
+                                <Table
+                                    id="idCreationLogsTable"
+                                    inset="false"
+                                    items="{logsModel>/logs}"
+                                    class="sapFDynamicPageAlignContent"
+                                    width="100%"
+                                    mode="None"
+                                >
+                                    <headerToolbar>
+                                        <OverflowToolbar>
+                                            <Text
+                                                text="Item No/Details: {poDetailModel>/0/ITEM_NUMBER}"
+                                            />
+                                            <ToolbarSpacer />
+                                        </OverflowToolbar>
+                                    </headerToolbar>
+                                    <columns>
+                                        <Column>
+                                            <Text text="Request No" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="SES Date" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="SES Amount" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="SES Status" />
+                                        </Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <cells>
+                                                <Text
+                                                    text="{logsModel>REQUEST_NO}"
+                                                />
+                                                <Text
+                                                    text="{path: 'logsModel>TIMESTAMP', formatter: '.formatLogDate'}"
+                                                />
+                                                <ObjectNumber
+                                                    number="{logsModel>AMOUNT}"
+                                                    unit="INR"
+                                                />
+                                                <Text
+                                                    text="{logsModel>SES_STATUS}"
+                                                />
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </o:blocks>
+                        </o:ObjectPageSubSection>
+                    </o:subSections>
+                </o:ObjectPageSection>
+            </o:sections>
+
+            <!-- <o:footer>
+                <OverflowToolbar>
+                    <ToolbarSpacer />
+                    
+                </OverflowToolbar>
+            </o:footer> -->
+        </o:ObjectPageLayout>
+    </l:Splitter>
+</mvc:View>

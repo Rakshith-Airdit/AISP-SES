@@ -1,0 +1,173 @@
+{
+    "_version": "1.65.0",
+    "sap.app": {
+        "id": "com.aisp.aispsupplierportal",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.18.0",
+            "toolsId": "dd261f20-7427-4b1b-96c9-0591195b1c63"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/odata/v2/zp-aisp-ses-upses-srbsample/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [
+                        "annotation0"
+                    ],
+                    "localUri": "localService/mainService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "annotation0": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation0.xml",
+                "settings": {
+                    "localUri": "annotations/annotation0.xml"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "AISP_SES-CREATE": {
+                    "semanticObject": "AISP_SES",
+                    "action": "CREATE",
+                    "title": "{{AISP_SES-CREATE.flpTitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": false,
+        "dependencies": {
+            "minUI5Version": "1.136.1",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.aisp.aispsupplierportal.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {}
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "transition": "slide",
+                "type": "View",
+                "viewType": "XML",
+                "path": "com.aisp.aispsupplierportal.view",
+                "async": true,
+                "viewPath": "com.aisp.aispsupplierportal.view"
+            },
+            "routes": [
+                {
+                    "name": "RouteListReport",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetListReport"
+                    ]
+                },
+                {
+                    "name": "RouteMultiPage",
+                    "pattern": "pomultidetail/{poNo}/{srvType}",
+                    "target": [
+                        "TargetMultiPage"
+                    ]
+                },
+                {
+                    "name": "RouteSrvEntry",
+                    "pattern": "srventry/{poNo}/{reqNo}",
+                    "target": [
+                        "TargetSrvEntryPage"
+                    ]
+                },
+                {
+                    "name": "RouteObjectPage",
+                    "pattern": "podetail/{poNo}/{srvType}",
+                    "target": [
+                        "TargetObjectPage"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetListReport": {
+                    "id": "ListReport",
+                    "name": "ListReport"
+                },
+                "TargetMultiPage": {
+                    "id": "MultiPage",
+                    "name": "MultiPage"
+                },
+                "TargetSrvEntryPage": {
+                    "id": "SRVEntryPage",
+                    "name": "SRVEntryPage"
+                },
+                "TargetObjectPage": {
+                    "id": "ObjectPage",
+                    "name": "ObjectPage"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "com.aisp.aispsupplierportal.view.App",
+            "type": "XML",
+            "id": "App",
+            "async": true
+        }
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "AISP_SES_CREATION"
+    }
+}

@@ -1,0 +1,47 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Table
+        id="unplannedFragmentTable"
+        items="{path: 'to_Items/results', factory: '.createUnplannedItem'}"
+        width="100%"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Text text="Unplanned Services - {REQUEST_NO}" />
+                <ToolbarSpacer />
+                <Button
+                    icon="sap-icon://excel-attachment"
+                    press="onExportToExcel"
+                />
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+            <Column width="5em">
+                <Text text="Sr No" />
+            </Column>
+            <Column width="8em">
+                <Text text="Service Number" />
+            </Column>
+            <Column width="15em">
+                <Text text="Service Description" />
+            </Column>
+            <Column width="6em">
+                <Text text="Ordered Qty" />
+            </Column>
+            <Column width="5em">
+                <Text text="UOM" />
+            </Column>
+            <Column width="6em">
+                <Text text="Unit Price" />
+            </Column>
+            <Column width="6em">
+                <Text text="Serviced Qty" />
+            </Column>
+            <Column width="7em">
+                <Text text="Total Price" />
+            </Column>
+        </columns>
+    </Table>
+</core:FragmentDefinition>

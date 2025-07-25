@@ -1,0 +1,96 @@
+<mvc:View
+    controllerName="com.invoiceappairdit.invoiceapprovalairdit.aispcustomerportal.controller.Invoicepdf"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:tL="sap.suite.ui.commons"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+>
+    <Page
+        showFooter="false"
+        showHeader="true"
+    >
+        <customHeader>
+            <Bar>
+                <contentMiddle>
+                    <Title
+                        text="Invoice Preview"
+                        class="sapUiTinyMarginStart"
+                    />
+                </contentMiddle>
+                <contentRight>
+                    <Button
+                        icon="sap-icon://decline"
+                        type="Reject"
+                        press="onClosePreview"
+                        tooltip="Close"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <VBox class="sapUiTinyMargin">
+            <!-- PDF Iframe Preview -->
+            <core:HTML
+                visible="{viewModel>/showPdf}"
+                content='&lt;iframe id="pdfFrame" width="100%" height="700px" style="border:none;"&gt;&lt;/iframe&gt;'
+            />
+        </VBox>
+
+        <!-- Logs Section (Timeline) -->
+        <VBox
+            class="sapUiTinyMargin"
+            visible="{= ${viewModel>/showLogs} }"
+        >
+            <tL:Timeline
+                id="idTimeline"
+                enableDoubleSided="true"
+                growingThreshold="10"
+                sortOldestFirst="true"
+                content="{logsModel>/logs}"
+                class="customTimeline"
+            >
+                <tL:content>
+                    <tL:TimelineItem
+                        id="idTemplateItem"
+                        dateTime="{logsModel>rawTimestamp}"
+                        title="Level {logsModel>level} - {logsModel>action}"
+                        userName="{logsModel>approver}"
+                        text="{logsModel>timestamp}"
+                        userPicture="{logsModel>icon}"
+                        filterValue="{logsModel>action}"
+                        status="{logsModel>status}"
+                    >
+                        <tL:embeddedControl>
+                            <VBox class="timelineEmbeddedContent">
+                                <items>
+                                    <HBox>
+                                        <Label
+                                            text="Role:"
+                                            class="label"
+                                        />
+                                        <Text
+                                            text="{logsModel>role}"
+                                            class="value"
+                                        />
+                                    </HBox>
+                                    <HBox>
+                                        <Label
+                                            text="Comment:"
+                                            class="label"
+                                        />
+                                        <Text
+                                            text="{logsModel>comment}"
+                                            class="value"
+                                            wrapping="true"
+                                        />
+                                    </HBox>
+                                </items>
+                            </VBox>
+                        </tL:embeddedControl>
+                    </tL:TimelineItem>
+                </tL:content>
+            </tL:Timeline>
+        </VBox>
+    </Page>
+</mvc:View>

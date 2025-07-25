@@ -1,0 +1,38 @@
+<mvc:View
+    controllerName="com.invoiceappairdit.invoiceapprovalairdit.aispcustomerportal.controller.App"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+>
+    <App id="app">
+        <Page
+            enableScrolling="true"
+            title="SES Approval"
+        >
+            <!-- <customHeader>
+                <f:ShellBar
+                    title="SES Approval"
+                    homeIcon="./Images/brandLogo.png"
+                    showCopilot="true"
+                    showSearch="true"
+                    showNotifications="true"
+                    showNavButton="{= ${/layout} === 'EndColumnFullScreen'}"
+                    notificationsNumber="2"
+                    navButtonPressed="handleBackButtonPressed"
+                >
+                    <f:menu />
+                    <f:profile>
+                        <Avatar initials="ZA" />
+                    </f:profile>
+                </f:ShellBar>
+            </customHeader> -->
+            <f:FlexibleColumnLayout
+                id="layout"
+                stateChange="onStateChanged"
+                layout="{appView>/layout}"
+                backgroundDesign="Translucent"
+            />
+        </Page>
+    </App>
+</mvc:View>
