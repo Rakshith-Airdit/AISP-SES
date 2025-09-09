@@ -115,7 +115,7 @@ sap.ui.define(
 
         _calculateTotalFromItems: function (aItems, srvType) {
           return aItems.reduce((total, item) => {
-            debugger;
+            
             const unitPrice = Number(item.UNIT_PRICE || 0);
             const quantity = Number(item.SERVICE_QUANTITY || 0);
             return total + unitPrice * quantity;
@@ -650,7 +650,7 @@ sap.ui.define(
           const oSelectedItem = aTokens[0].data().row;
           const oModel = this.getView().getModel("srvEntryModel");
 
-          debugger;
+          
 
           // Update model with selected values
           oModel.setProperty(
@@ -890,7 +890,7 @@ sap.ui.define(
         },
 
         onPreviewAttachment: function (oEvent) {
-          debugger;
+          
           const oContext = oEvent
             .getSource()
             .getBindingContext("srvEntryModel");
@@ -939,7 +939,7 @@ sap.ui.define(
         },
 
         onFileSelected: function (oEvent) {
-          debugger;
+          
           const oUploader = oEvent.getSource();
           const aFiles = oEvent.getParameter("files") || [];
 

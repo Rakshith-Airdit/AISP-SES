@@ -63,7 +63,7 @@ sap.ui.define(
         },
 
         _onLogsMatched: function (poNumber) {
-          debugger;
+          
           const oModel = this.getView().getModel();
           const viewModel = this.getView().getModel("viewModel");
           const PO_NUMBER = poNumber || "";
@@ -139,7 +139,7 @@ sap.ui.define(
             filters: [new sap.ui.model.Filter("PO_NUMBER", "EQ", PO_NUMBER)],
 
             success: function (oData) {
-              debugger;
+              
               const aLogs = oData.results || [];
 
               if (!aLogs.length) {
@@ -173,7 +173,7 @@ sap.ui.define(
               console.log("Timeline logs:", JSON.stringify(logs, null, 2));
             }.bind(this),
             error: function (err) {
-              debugger;
+              
               sap.m.MessageToast.show("Error fetching logs.");
               oLogsModel.setProperty("/logs", []);
             }.bind(this),

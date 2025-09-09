@@ -124,7 +124,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], (Controller) => {
 
       formatCalculatedAmount: function (oContext) {
         if (!oContext) return "0";
-        debugger;
+        
         const aItems = oContext.getProperty("to_Items/results") || [];
         const total = aItems.reduce((sum, item) => {
           const price = Number(item.UNIT_PRICE) || 0;
@@ -136,7 +136,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], (Controller) => {
       },
 
       // calculateAmount: function (itemData) {
-      //     debugger;
+      //     
       //     let oModel = this.getView().getModel();
       //     let oData = oModel.oData;
       //     let total = 0;

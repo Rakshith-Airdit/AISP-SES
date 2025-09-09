@@ -23,7 +23,7 @@ sap.ui.define(
         // onBeforeRebindTable: function (oEvent) {
         //   const oBindingParams = oEvent.getParameter("bindingParams");
         //   const oSmartTable = oEvent.getSource();
-        //   debugger;
+        //   
         //   let sStatus;
 
         //   switch (oSmartTable.getId()) {
@@ -53,11 +53,19 @@ sap.ui.define(
           switch (sTableId) {
             case this.createId("smartTablePending"):
               // Any status containing “In-Process”
-              oFilter = new sap.ui.model.Filter(
-                "SES_STATUS",
-                sap.ui.model.FilterOperator.Contains,
-                "In-Process"
-              );
+              // oFilter = new sap.ui.model.Filter(
+              //   "SES_STATUS",
+              //   sap.ui.model.FilterOperator.Contains,
+              //   "In-Process"
+              // );
+              // You can also create it in a single statement
+              oFilter = new sap.ui.model.Filter({
+                filters: [
+                  new sap.ui.model.Filter("SES_STATUS", sap.ui.model.FilterOperator.NE, "Approved"),
+                  new sap.ui.model.Filter("SES_STATUS", sap.ui.model.FilterOperator.NE, "Rejected")
+                ],
+                and: true // OR operation
+              });
               break;
 
             case this.createId("smartTableRejected"):

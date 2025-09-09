@@ -56,7 +56,7 @@ sap.ui.define([
         },
 
         // onCreateEntrySheet: function (oEvent) {
-        //     debugger;
+        //     
         //     const oTable = this.getView().byId("idPODetailTable");
 
         //     let aSelectedItems = oTable.getSelectedItems();
@@ -127,7 +127,7 @@ sap.ui.define([
 
 
         onCreateEntrySheet: async function (oEvent) {
-            debugger;
+            
             const oTable = this.getView().byId("idPODetailTable");
             let aSelectedItems = oTable.getSelectedItems();
             const aSelectedData = [];
@@ -241,19 +241,48 @@ sap.ui.define([
                 return;
             }
 
+            // oModel.read("/SES_CREATION_LOGS", {
+            //     filters: [new sap.ui.model.Filter("PO_NUMBER", "EQ", poNumber)],
+            //     success: function (res) {
+            //         
+            //         this.getView().byId("idObjectPageLayout").setBusy(false);
+            //         oLogsModel.setData({ logs: res.results });
+            //     }.bind(this),
+            //     error: function (error) {
+            //         this.getView().byId("idObjectPageLayout").setBusy(false);
+            //         MessageBox.error(JSON.parse(error.responseText).error.message.value);
+            //         console.error(JSON.parse(error.responseText).error.message.value)
+            //     }.bind(this),
+            // })
+
             oModel.read("/SES_CREATION_LOGS", {
                 filters: [new sap.ui.model.Filter("PO_NUMBER", "EQ", poNumber)],
                 success: function (res) {
-                    debugger;
+                    
                     this.getView().byId("idObjectPageLayout").setBusy(false);
-                    oLogsModel.setData({ logs: res.results });
+
+                    // Get latest log for each request number
+                    const latestLogsMap = res.results.reduce((acc, log) => {
+                        const requestNo = log.REQUEST_NO;
+                        const currentTimestamp = new Date(log.TIMESTAMP);
+
+                        if (!acc.has(requestNo) || currentTimestamp > new Date(acc.get(requestNo).TIMESTAMP)) {
+                            acc.set(requestNo, log);
+                        }
+
+                        return acc;
+                    }, new Map());
+
+                    const latestLogs = Array.from(latestLogsMap.values());
+
+                    oLogsModel.setData({ logs: latestLogs });
                 }.bind(this),
                 error: function (error) {
                     this.getView().byId("idObjectPageLayout").setBusy(false);
                     MessageBox.error(JSON.parse(error.responseText).error.message.value);
                     console.error(JSON.parse(error.responseText).error.message.value)
                 }.bind(this),
-            })
+            });
         },
 
         formatLogDate: function (sDate) {
@@ -306,7 +335,7 @@ sap.ui.define([
             const oView = this.getView();
             let oRouter = this.getOwnerComponent().getRouter();
             oView.setBusy(true);
-            
+
             oRouter.navTo("RouteListReport");
 
             oRouter.getRoute("RouteListReport").attachPatternMatched(() => {

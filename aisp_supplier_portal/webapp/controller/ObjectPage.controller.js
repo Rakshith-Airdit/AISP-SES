@@ -740,7 +740,7 @@ sap.ui.define([
 
         // Submit data to backend
         _submitData: function (oPayload) {
-            debugger;
+            
             const oView = this.getView();
             oView.setBusy(true);
 
