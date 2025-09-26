@@ -125,11 +125,10 @@ sap.ui.define([
         //     }
         // },
 
-
         onCreateEntrySheet: async function (oEvent) {
-            
             const oTable = this.getView().byId("idPODetailTable");
             let aSelectedItems = oTable.getSelectedItems();
+            let hasValidItems = false;
             const aSelectedData = [];
 
             if (this.srvType === "Planned") {
@@ -155,7 +154,14 @@ sap.ui.define([
                             oTable.setSelectedItem(oSelectedItem, false);
                         } else {
                             aSelectedData.push(oData);
+                            hasValidItems = true;
                         }
+                    }
+
+                    // Additional validation: Check if we have valid items to proceed
+                    if (!hasValidItems) {
+                        MessageBox.error("No valid items available. All selected items are fully utilized.");
+                        return; // Stop execution and don't navigate
                     }
 
                     // Store selected items in localStorage and navigate
@@ -258,7 +264,7 @@ sap.ui.define([
             oModel.read("/SES_CREATION_LOGS", {
                 filters: [new sap.ui.model.Filter("PO_NUMBER", "EQ", poNumber)],
                 success: function (res) {
-                    
+
                     this.getView().byId("idObjectPageLayout").setBusy(false);
 
                     // Get latest log for each request number
