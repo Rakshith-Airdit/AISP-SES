@@ -30,7 +30,7 @@
                     text="Delete"
                     press="onDeletePress"
                 />
-                <Button icon="sap-icon://excel-attachment" />
+                <Button icon="sap-icon://excel-attachment" press="onExcelExport"/>
             </OverflowToolbar>
         </headerToolbar>
         <columns>

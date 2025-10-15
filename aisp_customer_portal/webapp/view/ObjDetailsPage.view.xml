@@ -35,7 +35,7 @@
                 </breadcrumbs>
                 <expandedHeading>
                     <m:Title
-                        text="{oResData>/REQUEST_NO}"
+                        text="REQUEST NO: {oResData>/REQUEST_NO}"
                         wrapping="true"
                     />
                 </expandedHeading>
@@ -233,11 +233,11 @@
                                 />
                                 <m:ComboBox
                                     id="idFinalSESEntry"
-                                    selectedKey="{oResData>/FINAL_SES_ENTRY}"
                                     enabled="{= ${oResData>/SES_STATUS}.includes('In-Process') }"
                                     required="true"
                                     placeholder="Final SES Entry"
                                     change="onChangeSESEntry"
+                                    selectedKey="{oResData>/FINAL_SES_ENTRY}"
                                 >
                                     <m:items>
                                         <core:ListItem
@@ -267,11 +267,11 @@
                                 />
                                 <m:Input
                                     id="idSitePerson"
-                                    value="{oResData>/SITE_PERSON}"
                                     placeholder="Site Person"
                                     required="true"
                                     editable="{= ${oResData>/SES_STATUS}.includes('In-Process') }"
                                     liveChange="onChangeSitePersonInp"
+                                    value="{oResData>/SITE_PERSON}"
                                 />
                                 <m:Label
                                     text="Service Text"
@@ -279,11 +279,11 @@
                                 />
                                 <m:Input
                                     id="idServiceText"
-                                    value="{oResData>/SERVICE_TEXT}"
                                     placeholder="Service Text"
                                     required="true"
                                     editable="{= ${oResData>/SES_STATUS}.includes('In-Process') }"
                                     liveChange="onChangeSrvTextInp"
+                                    value="{oResData>/SERVICE_TEXT}"
                                 />
                             </form:SimpleForm>
                         </blocks>
@@ -317,6 +317,11 @@
                                                 <m:Title
                                                     text="Item Details"
                                                     level="H2"
+                                                />
+                                                <m:ToolbarSpacer />
+                                                <m:Button
+                                                    icon="sap-icon://excel-attachment"
+                                                    press="onExcelExport"
                                                 />
                                             </m:Toolbar>
                                         </m:headerToolbar>

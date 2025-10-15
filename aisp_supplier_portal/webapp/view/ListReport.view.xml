@@ -111,7 +111,8 @@
                                     beforeRebindTable="onBeforeRebindTable"
                                     enableCopy="false"
                                     persistencyKey="SmartFilterPKey"
-                                    ignoredFields="Bstyp,Bsart,Ekorg,Ekgrp,ServicePOType"
+                                    ignoredFields="Bstyp,Bsart,Ekorg,Ekgrp"
+                                    requestAtLeastFields="ServicePOType"
                                 >
                                     <Table
                                         id="idServicePOTable"

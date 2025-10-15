@@ -1,19 +1,19 @@
 <edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
     <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
-        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
     </edmx:Reference>
     <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
-        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI" />
     </edmx:Reference>
     <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
-        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication" />
     </edmx:Reference>
-    <edmx:Reference Uri="/odata/v2/zp-aisp-ses-upses-srbsample/$metadata">
-        <edmx:Include Namespace="ZP_AISP_SES_UPSES_SRBSampleService" Alias="SAP"/>
+    <edmx:Reference Uri="/odata/v2/ses-customer-side/$metadata">
+        <edmx:Include Namespace="SES_CUSTOMER_SIDE" Alias="SAP" />
     </edmx:Reference>
     <edmx:DataServices>
         <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local1">
-         <Annotations Target="SAP.SES_Head">
+            <Annotations Target="SAP.SES_Head">
                 <!-- <Annotation Term="UI.LineItem">
                     <Collection>
                         <Record Type="UI.DataField">
@@ -30,7 +30,7 @@
                         </Record>
                     </Collection>
                 </Annotation> -->
-                <Annotation Term="UI.SelectionFields" >
+                <Annotation Term="UI.SelectionFields">
                     <Collection>
                         <PropertyPath>SUPPLIER_NAME</PropertyPath>
                         <PropertyPath>PO_NUMBER</PropertyPath>
@@ -38,7 +38,6 @@
                     </Collection>
                 </Annotation>
             </Annotations>
-
 
             <Annotations Target="SAP.SES_Head/SUPPLIER_NAME">
                 <Annotation Term="Common.ValueList">
@@ -75,7 +74,7 @@
                 </Annotation>
                 <Annotation Term="Common.Label" String="Po Number" />
             </Annotations>
-            
+
             <Annotations Target="SAP.SES_Head/REQUEST_NO">
                 <Annotation Term="Common.ValueList">
                     <Record Type="Common.ValueListType">

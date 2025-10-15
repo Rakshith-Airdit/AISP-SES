@@ -15,7 +15,7 @@
             <OverflowToolbar>
                 <Text text="Item No/Details: {poDetailModel>/0/Ebelp}" />
                 <ToolbarSpacer />
-                <Button icon="sap-icon://excel-attachment" />
+                <Button icon="sap-icon://excel-attachment" press="onExcelExport"/>
             </OverflowToolbar>
         </headerToolbar>
         <columns>

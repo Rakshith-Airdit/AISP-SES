@@ -115,7 +115,6 @@ sap.ui.define(
 
         _calculateTotalFromItems: function (aItems, srvType) {
           return aItems.reduce((total, item) => {
-            
             const unitPrice = Number(item.UNIT_PRICE || 0);
             const quantity = Number(item.SERVICE_QUANTITY || 0);
             return total + unitPrice * quantity;
@@ -650,8 +649,6 @@ sap.ui.define(
           const oSelectedItem = aTokens[0].data().row;
           const oModel = this.getView().getModel("srvEntryModel");
 
-          
-
           // Update model with selected values
           oModel.setProperty(
             `${this._sCurrentSelectedPath}/SERVICE_NUMBER`,
@@ -757,7 +754,7 @@ sap.ui.define(
             throw new Error("At least one attachment is required");
 
           return {
-            action: "EDIT",
+            // action: "EDIT",
             TOTAL_AMOUNT: grandTotal,
             servicehead: [
               {
@@ -770,8 +767,8 @@ sap.ui.define(
                 AMOUNT: oData.AMOUNT || "",
                 TYPE: srvType,
                 COMMENT: "Revised and re-uploaded",
-                SUPPLIER_NUMBER: oData.Lifnr,
-                SUPPLIER_NAME: oData.LIFNR_NAME,
+                SUPPLIER_NUMBER: oData.SUPPLIER_NUMBER || oData.Lifnr,
+                SUPPLIER_NAME: oData.SUPPLIER_NAME || oData.LIFNR_NAME,
               },
             ],
             serviceitem: aServiceItems,
@@ -854,16 +851,17 @@ sap.ui.define(
 
         _submitData: function (oPayload) {
           const oView = this.getView();
+          const oRouter = this.getOwnerComponent().getRouter();
           oView.setBusy(true);
 
           this.getView()
             .getModel()
-            .create("/submitSES", oPayload, {
+            .create("/editSES", oPayload, {
               method: "POST",
               success: (oData) => {
                 oView.setBusy(false);
                 const sMessage =
-                  oData.submitSES?.returnMessage ||
+                  oData?.editSES?.returnMessage ||
                   "Your Service Entry Sheet has been submitted successfully!";
 
                 MessageBox.success(sMessage, {
@@ -876,6 +874,7 @@ sap.ui.define(
                       .setProperty("/isEditMode", false);
                     this.byId("idSaveBtn").setVisible(false);
                     this.byId("idEditBtn").setVisible(true);
+                    oRouter.navTo("RouteListReport");
                   },
                 });
               },
@@ -890,7 +889,6 @@ sap.ui.define(
         },
 
         onPreviewAttachment: function (oEvent) {
-          
           const oContext = oEvent
             .getSource()
             .getBindingContext("srvEntryModel");
@@ -939,7 +937,6 @@ sap.ui.define(
         },
 
         onFileSelected: function (oEvent) {
-          
           const oUploader = oEvent.getSource();
           const aFiles = oEvent.getParameter("files") || [];
 

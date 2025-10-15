@@ -101,7 +101,7 @@
                                     <customData>
                                         <core:CustomData
                                             key="p13nData"
-                                            value='\{"columnKey": "total_service_sheet_value", "leadingProperty": "total_service_sheet_value", "sortProperty": "total_service_sheet_value", "filterProperty": "total_service_sheet_value", "columnIndex": "3"}'
+                                            value='\{"columnKey": "AMOUNT", "leadingProperty": "AMOUNT", "sortProperty": "AMOUNT", "filterProperty": "AMOUNT", "columnIndex": "3"}'
                                         />
                                     </customData>
                                     <Label
@@ -144,7 +144,7 @@
                                             textAlign="Center"
                                         />
                                         <ObjectNumber
-                                            number="{total_service_sheet_value}"
+                                            number="{AMOUNT}"
                                             unit="INR"
                                         />
                                         <ObjectStatus

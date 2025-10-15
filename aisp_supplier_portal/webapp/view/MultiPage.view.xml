@@ -244,6 +244,7 @@
                                             />
                                             <Button
                                                 icon="sap-icon://excel-attachment"
+                                                press="onExcelExport"
                                             />
                                         </OverflowToolbar>
                                     </headerToolbar>
@@ -316,15 +317,22 @@
                                 >
                                     <headerToolbar>
                                         <OverflowToolbar>
-                                            <Text
-                                                text="Item No/Details: {poDetailModel>/0/ITEM_NUMBER}"
-                                            />
                                             <ToolbarSpacer />
+                                            <Button
+                                                icon="sap-icon://excel-attachment"
+                                                press="onExcelExport"
+                                            />
                                         </OverflowToolbar>
                                     </headerToolbar>
                                     <columns>
                                         <Column>
                                             <Text text="Request No" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="Approver Role" />
+                                        </Column>
+                                        <Column>
+                                            <Text text="Action" />
                                         </Column>
                                         <Column>
                                             <Text text="SES Date" />
@@ -341,6 +349,12 @@
                                             <cells>
                                                 <Text
                                                     text="{logsModel>REQUEST_NO}"
+                                                />
+                                                <Text
+                                                    text="{logsModel>APPROVER_ROLE}"
+                                                />
+                                                <Text
+                                                    text="{logsModel>ACTION}"
                                                 />
                                                 <Text
                                                     text="{path: 'logsModel>TIMESTAMP', formatter: '.formatLogDate'}"

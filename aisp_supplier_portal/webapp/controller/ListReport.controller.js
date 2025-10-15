@@ -5,29 +5,30 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], (Controller) => {
     "com.aisp.aispsupplierportal.controller.ListReport",
     {
       onInit() {
-        let oModel = this.getOwnerComponent().getModel();
-        let oView = this.getView();
+        // let oModel = this.getOwnerComponent().getModel();
+        // let oView = this.getView();
 
-        oModel.read("/SESHeaderList", {
-          success: function (oData, oRes) {
-            console.log(oData, oRes);
-          },
-          error: function (oErr) {
-            console.error(oErr);
-          },
-        });
+        // oModel.read("/SESHeaderList", {
+        //   success: function (oData, oRes) {
+        //     console.log(oData, oRes);
+        //   },
+        //   error: function (oErr) {
+        //     console.error(oErr);
+        //   },
+        // });
 
-        const customizeConfig = {
-          autoColumnWidth: {
-            "*": {
-              min: 1,
-              max: 10,
-              gap: 3,
-              truncateLabel: true,
-            },
-          },
-        };
-        const oSmartTable = this.getView().byId("idOpenSrvPOTable");
+        // const customizeConfig = {
+        //   autoColumnWidth: {
+        //     "*": {
+        //       min: 1,
+        //       max: 10,
+        //       gap: 3,
+        //       truncateLabel: true,
+        //     },
+        //   },
+        // };
+
+        // const oSmartTable = this.getView().byId("idOpenSrvPOTable");
 
         const oViewModel = new sap.ui.model.json.JSONModel({
           selectedTab: "OpenSRVPO",

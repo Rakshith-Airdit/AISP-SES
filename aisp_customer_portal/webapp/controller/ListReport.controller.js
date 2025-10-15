@@ -3,8 +3,9 @@ sap.ui.define(
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "sap/ui/model/Sorter",
   ],
-  (Controller, Filter, FilterOperator) => {
+  (Controller, Filter, FilterOperator, Sorter) => {
     "use strict";
 
     return Controller.extend(
@@ -12,38 +13,16 @@ sap.ui.define(
       {
         onInit() {
           let oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-          // oRouter.getRoute("RoutePOLists").attachPatternMatched(this.attachPatternApp, this);
+          oRouter
+            .getRoute("RouteListReport")
+            .attachPatternMatched(this.attachPatternApp, this);
         },
 
         attachPatternApp: function () {
-          this.byId("smartTable").rebindTable();
-          this.byId("smartTableSub").rebindTable();
+          this.byId("smartTablePending").rebindTable();
+          this.byId("smartTableApproved").rebindTable();
+          this.byId("smartTableRejected").rebindTable();
         },
-
-        // onBeforeRebindTable: function (oEvent) {
-        //   const oBindingParams = oEvent.getParameter("bindingParams");
-        //   const oSmartTable = oEvent.getSource();
-        //   
-        //   let sStatus;
-
-        //   switch (oSmartTable.getId()) {
-        //     case this.createId("smartTablePending"):
-        //       sStatus = "In-Process ISP";
-        //       break;
-        //     case this.createId("smartTableRejected"):
-        //       sStatus = "Rejected";
-        //       break;
-        //     case this.createId("smartTableApproved"):
-        //       sStatus = "Approved";
-        //       break;
-        //     default:
-        //       return;
-        //   }
-
-        //   oBindingParams.filters.push(
-        //     new Filter("SES_STATUS", FilterOperator.EQ, sStatus)
-        //   );
-        // },
 
         onBeforeRebindTable: function (oEvent) {
           const oBindingParams = oEvent.getParameter("bindingParams");
@@ -52,36 +31,19 @@ sap.ui.define(
 
           switch (sTableId) {
             case this.createId("smartTablePending"):
-              // Any status containing “In-Process”
-              // oFilter = new sap.ui.model.Filter(
-              //   "SES_STATUS",
-              //   sap.ui.model.FilterOperator.Contains,
-              //   "In-Process"
-              // );
-              // You can also create it in a single statement
-              oFilter = new sap.ui.model.Filter({
-                filters: [
-                  new sap.ui.model.Filter("SES_STATUS", sap.ui.model.FilterOperator.NE, "Approved"),
-                  new sap.ui.model.Filter("SES_STATUS", sap.ui.model.FilterOperator.NE, "Rejected")
-                ],
-                and: true // OR operation
-              });
+              oFilter = new Filter(
+                "SES_STATUS",
+                FilterOperator.Contains,
+                "In-Process"
+              );
               break;
 
             case this.createId("smartTableRejected"):
-              oFilter = new sap.ui.model.Filter(
-                "SES_STATUS",
-                sap.ui.model.FilterOperator.EQ,
-                "Rejected"
-              );
+              oFilter = new Filter("SES_STATUS", FilterOperator.EQ, "Rejected");
               break;
 
             case this.createId("smartTableApproved"):
-              oFilter = new sap.ui.model.Filter(
-                "SES_STATUS",
-                sap.ui.model.FilterOperator.EQ,
-                "Approved"
-              );
+              oFilter = new Filter("SES_STATUS", FilterOperator.EQ, "Approved");
               break;
 
             default:
@@ -89,6 +51,17 @@ sap.ui.define(
           }
 
           oBindingParams.filters.push(oFilter);
+
+          // Check if user has already applied any sorting
+          const hasUserSorting =
+            oBindingParams.sorter && oBindingParams.sorter.length > 0;
+
+          // Only add default sorter if no user sorting is applied
+          if (!hasUserSorting) {
+            const oRequestNoSorter = new Sorter("REQUEST_NO", true); // descending
+            oBindingParams.sorter = [oRequestNoSorter];
+          }
+          // If user has applied sorting, oBindingParams.sorter already contains their preference
         },
 
         onIconTabBarSelect: function (oEvent) {

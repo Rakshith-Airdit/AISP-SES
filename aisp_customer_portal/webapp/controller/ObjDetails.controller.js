@@ -8,6 +8,8 @@ sap.ui.define(
     "sap/m/MessageToast",
     "sap/ui/core/Fragment",
     "sap/ui/core/BusyIndicator",
+    "sap/ui/export/library",
+    "sap/ui/export/Spreadsheet",
   ],
   function (
     Controller,
@@ -17,7 +19,9 @@ sap.ui.define(
     MessageBox,
     MessageToast,
     Fragment,
-    BusyIndicator
+    BusyIndicator,
+    library,
+    Spreadsheet
   ) {
     "use strict";
 
@@ -72,6 +76,9 @@ sap.ui.define(
             function (resolve, reject) {
               var oModel = this.getView().getModel();
               oModel.read("/SES_Head", {
+                urlParameters: {
+                  $expand: "to_Items,to_Attachments",
+                },
                 filters: [new Filter("REQUEST_NO", FilterOperator.EQ, reqNum)],
                 success: function (res) {
                   this._processRequestData(res.results[0] || {});
@@ -284,14 +291,22 @@ sap.ui.define(
 
           var oPayload = this._preparePayload(sAction, sComment);
           var oModel = this.getView().getModel();
+          let sURL = "";
+          if (sAction === "APPROVE") {
+            sURL = "/approveSES";
+          } else if (sAction === "REJECT") {
+            sURL = "/rejectSES";
+          } else {
+            MessageBox.error("Invalid Action!! You Can Approve or Reject SES");
+          }
 
-          oModel.create("/submitSES", oPayload, {
+          oModel.create(sURL, oPayload, {
             method: "POST",
             success: function (oRes) {
-              this._handleSubmissionSuccess(oRes);
+              this._handleSubmissionSuccess(sAction, oRes);
             }.bind(this),
             error: function (oErr) {
-              this._handleSubmissionError(oErr);
+              this._handleSubmissionError(sAction, oErr);
             }.bind(this),
           });
         },
@@ -303,7 +318,7 @@ sap.ui.define(
           var oAttachmentModel = oView.getModel("attachmentsModel");
 
           return {
-            action: sAction,
+            // action: sAction,
             TOTAL_AMOUNT: oItemsModel.getData().totalSrvSheetVal,
             servicehead: [
               {
@@ -312,6 +327,18 @@ sap.ui.define(
                 FINAL_SES_ENTRY: oView.byId("idFinalSESEntry").getSelectedKey(),
                 SITE_PERSON: oView.byId("idSitePerson").getValue(),
                 SERVICE_TEXT: oView.byId("idServiceText").getValue(),
+                // SERVICE_PERIOD: oView.byId("idServiceEntryPeriod").getText(),
+                // PERSON_RESPONSIBLE: oView
+                //   .byId("idServiceEntryPersonResponsible")
+                //   .getText(),
+                // SERVICE_LOCATION: oView
+                //   .byId("idServiceEntryLocation")
+                //   .getText(),
+                // COMPANY_CODE: oHeadModel.getProperty("/COMPANY_CODE"),
+                // SUPPLIER_NUMBER: oHeadModel.getProperty("/SUPPLIER_NUMBER"),
+                // SUPPLIER_NAME: oHeadModel.getProperty("/SUPPLIER_NAME"),
+                // PO_NUMBER: oHeadModel.getProperty("/PO_NUMBER"),
+                // AMOUNT: oHeadModel.getProperty("/AMOUNT"),
               },
             ],
             serviceitem: this._cleanItems(oItemsModel.getData().results),
@@ -333,11 +360,19 @@ sap.ui.define(
           });
         },
 
-        _handleSubmissionSuccess: function (oRes) {
+        _handleSubmissionSuccess: function (sAction, oRes) {
           this._setBusy(false);
 
+          let actionName;
+
+          if (sAction === "APPROVE") {
+            actionName = "approveSES";
+          } else if (sAction === "REJECT") {
+            actionName = "rejectSES";
+          }
+
           MessageBox.success(
-            oRes.submitSES?.returnMessage || "Action completed successfully!",
+            oRes[actionName]?.returnMessage || "Action completed successfully!",
             {
               title: "Success",
               onClose: function () {
@@ -348,7 +383,7 @@ sap.ui.define(
           );
         },
 
-        _handleSubmissionError: function (oErr) {
+        _handleSubmissionError: function (sAction, oErr) {
           this._setBusy(false);
 
           var sMsg = "Submission failed. Please try again.";
@@ -453,6 +488,59 @@ sap.ui.define(
 
           this.getOwnerComponent().getRouter().navTo("Invoicepdf", {
             imageUrl: PO_NUMBER,
+          });
+        },
+
+        onExcelExport: function (oEvent) {
+          const oExportBtn = oEvent.getSource();
+          const oToolBar = oExportBtn.getParent();
+          const oTable = oToolBar.getParent();
+          const oColumns = oTable.getColumns();
+          const oRowBinding = oTable.getBinding("items");
+
+          const EdmType = library.EdmType;
+          const aCols = [];
+
+          oColumns.forEach((col, index) => {
+            const sHeader = col.getHeader().getText();
+
+            // Get the cell template for this column
+            const oItems = oTable.getItems();
+            if (oItems && oItems.length > 0) {
+              const oFirstItem = oItems[0];
+              const oCells = oFirstItem.getCells();
+
+              if (oCells && oCells.length > index) {
+                const oCell = oCells[index];
+                const oBinding = oCell.getBinding("text");
+
+                if (oBinding && oBinding.getPath()) {
+                  const sProperty = oBinding
+                    .getPath()
+                    .replace("tableModel>", "");
+
+                  aCols.push({
+                    label: sHeader,
+                    property: sProperty,
+                    type: EdmType.String,
+                  });
+                }
+              }
+            }
+          });
+
+          const oSettings = {
+            workbook: {
+              columns: aCols,
+            },
+            dataSource: oRowBinding,
+            fileName: "TableExport.xlsx",
+            worker: false,
+          };
+
+          const oSheet = new Spreadsheet(oSettings);
+          oSheet.build().finally(function () {
+            oSheet.destroy();
           });
         },
       }
