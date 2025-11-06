@@ -56,6 +56,7 @@ sap.ui.define(
         onPatternMatched: function (oEvent) {
           this._setBusy(true);
           var reqNum = oEvent.getParameter("arguments").reqNo;
+          
           this.getOwnerComponent()
             .getModel("appView")
             .setProperty("/layout", "OneColumn");
