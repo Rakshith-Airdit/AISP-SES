@@ -14,7 +14,19 @@
     >
         <List
             id="idSESHeaderList"
-            items="{/SESHeaderList}"
+            items="{
+                path: '/SESHeaderList',
+                sorter: [
+                    {
+                        path: 'Aedat', 
+                        descending: true
+                    },
+                    {
+                        path: 'Ebeln',
+                        descending: true
+                    }
+                ]
+            }"
             headerText="Open Service PO's"
         >
             <headerToolbar>

@@ -332,7 +332,7 @@ sap.ui.define(
           const servicedQuantity = Number(oData.SERVICE_QUANTITY);
 
           // Validate against business rules
-          if (serviceQuantity < 0) {
+          if (serviceQuantity <= 0) {
             this._setInputErrorState(
               oInput,
               "Service Quantity cannot be less than 0."
@@ -706,7 +706,9 @@ sap.ui.define(
           const aSrvItemRows = this.getView()
             .getModel("selItemModel")
             .getProperty("/items");
+
           const aCleanItems = [];
+          
           const oTotalSrvSheetVal = { totalSrvSheetVal: 0 };
           let grandTotal = 0;
 

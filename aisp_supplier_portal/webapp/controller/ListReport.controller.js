@@ -37,6 +37,77 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], (Controller) => {
         this.getView().setModel(oViewModel, "viewModel");
       },
 
+      onBeforeRebindTable: function (oEvent) {
+        const oBindingParams = oEvent.getParameter("bindingParams");
+
+        // For descending order (most recent first), set second parameter to TRUE
+        const oSorter = new sap.ui.model.Sorter("Aedat", true, true); // desc=true, group=false
+        const oSecondarySorter = new sap.ui.model.Sorter("Ebeln", true, true); // desc=true, group=false
+
+        // Set default sorting if no sorters exist
+        if (!oBindingParams.sorter || oBindingParams.sorter.length === 0) {
+          oBindingParams.sorter = [oSorter, oSecondarySorter];
+        } else {
+          // Check if we need to add secondary sort for Aedat
+          const aSorters = oBindingParams.sorter;
+          const aedatSorterIndex = aSorters.findIndex(sorter => sorter.sPath === "Aedat");
+
+          if (aedatSorterIndex !== -1) {
+            // Check if Ebeln sorter already exists
+            const ebelnSorterExists = aSorters.some(sorter => sorter.sPath === "Ebeln");
+
+            if (!ebelnSorterExists) {
+              // Add Ebeln sorter after Aedat with same direction
+              const isDescending = aSorters[aedatSorterIndex].bDescending;
+              const oEbelnSorter = new sap.ui.model.Sorter("Ebeln", isDescending, true);
+              aSorters.splice(aedatSorterIndex + 1, 0, oEbelnSorter);
+            }
+          } else {
+            // If no Aedat sorter exists but user applied other sorting, 
+            // we don't override user's choice
+          }
+        }
+
+        console.log("Applied sorters:", oBindingParams.sorter.map(s => ({
+          path: s.sPath,
+          descending: s.bDescending
+        })));
+      },
+
+      onBeforeRebindTable2: function (oEvent) {
+        const oBindingParams = oEvent.getParameter("bindingParams");
+
+        // Sort by CREATED_ON descending (most recent first) with secondary sort
+        const oSorter = new sap.ui.model.Sorter("CREATED_ON", true, true); // desc=true, group=false
+        const oSecondarySorter = new sap.ui.model.Sorter("REQUEST_NO", true, true); // desc=true, group=false
+
+        // Set default sorting if no sorters exist
+        if (!oBindingParams.sorter || oBindingParams.sorter.length === 0) {
+          oBindingParams.sorter = [oSorter, oSecondarySorter];
+        } else {
+          // Check if we need to add secondary sort for CREATED_ON
+          const aSorters = oBindingParams.sorter;
+          const createdOnSorterIndex = aSorters.findIndex(sorter => sorter.sPath === "CREATED_ON");
+
+          if (createdOnSorterIndex !== -1) {
+            // Check if REQUEST_NO sorter already exists
+            const requestNoSorterExists = aSorters.some(sorter => sorter.sPath === "REQUEST_NO");
+
+            if (!requestNoSorterExists) {
+              // Add REQUEST_NO sorter after CREATED_ON with same direction
+              const isDescending = aSorters[createdOnSorterIndex].bDescending;
+              const oRequestNoSorter = new sap.ui.model.Sorter("REQUEST_NO", isDescending, true);
+              aSorters.splice(createdOnSorterIndex + 1, 0, oRequestNoSorter);
+            }
+          }
+        }
+
+        console.log("Service Entry Table - Applied sorters:", oBindingParams.sorter.map(s => ({
+          path: s.sPath,
+          descending: s.bDescending
+        })));
+      },
+
       onIconTabBarSelect: function (oEvent) {
         const selectedKey = oEvent.getParameter("key");
         if (selectedKey === "OpenSRVPO") {
@@ -125,7 +196,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], (Controller) => {
 
       formatCalculatedAmount: function (oContext) {
         if (!oContext) return "0";
-        
+
         const aItems = oContext.getProperty("to_Items/results") || [];
         const total = aItems.reduce((sum, item) => {
           const price = Number(item.UNIT_PRICE) || 0;

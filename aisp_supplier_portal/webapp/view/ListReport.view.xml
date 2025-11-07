@@ -211,7 +211,7 @@
                                     header="Service Entry Sheet"
                                     enableAutoColumnWidth="false"
                                     placeToolbarInTable="true"
-                                    beforeRebindTable="onBeforeRebindTable"
+                                    beforeRebindTable="onBeforeRebindTable2"
                                     enableCopy="false"
                                     ignoredFields="SERVICE_PERIOD,SERVICE_LOCATION,PERSON_RESPONSIBLE,CURRENT_ASSIGNEE,APPROVER_ROLE,REQUESTER_ID,APPROVER_LEVEL,PROCESS_LEVEL,FINAL_SES_ENTRY,SITE_PERSON,SERVICE_TEXT,COMMENT,TYPE,SAP_REFERENCE_NUMBER"
                                 >
